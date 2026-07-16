@@ -5,29 +5,44 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
+import { useToast } from "@/components/ui/toast";
 
 export const SignInForm: React.FC = () => {
   const [email, setEmail] = useState("chidi.umeh@email.com");
   const [password, setPassword] = useState("password123");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(false);
 
     if (!email.trim() || !password.trim()) {
-      setError("Please fill in both email and password.");
+      toast({
+        type: "error",
+        title: "Incorrect Details",
+        description: "Please fill in both email and password.",
+      });
       return;
     }
 
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-      setSuccess(true);
+
+      if (email === "chidi.umeh@email.com" && password === "password123") {
+        toast({
+          type: "success",
+          title: "Welcome Back",
+          description: "You have successfully signed in",
+        });
+      } else {
+        toast({
+          type: "error",
+          title: "Incorrect Details",
+          description: "Invalid email or password",
+        });
+      }
     }, 1200);
   };
 
@@ -130,18 +145,6 @@ export const SignInForm: React.FC = () => {
             )}
           </Button>
         </div>
-
-        {error && (
-          <div className="w-full max-w-110 p-3 border border-primary/20 bg-primary/5 rounded-radius-200 text-primary text-xs font-semibold mt-1">
-            {error}
-          </div>
-        )}
-        {success && (
-          <div className="w-full max-w-110 p-3 border border-emerald-200 bg-emerald-50 rounded-radius-200 text-emerald-800 text-xs font-semibold mt-1">
-            ✓ Logged in successfully as {email}
-          </div>
-        )}
-
         <div className="w-full max-w-110 flex items-center gap-4 my-3 select-none">
           <div className="flex-1 h-[1.5px] bg-border-gray" />
           <span className="text-neutral-secondary text-xs xl:text-sm font-medium whitespace-nowrap">

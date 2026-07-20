@@ -58,9 +58,9 @@ export const SignUpEmailForm: React.FC = () => {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full flex flex-col justify-center select-text"
+      className="w-full max-w-110 mx-auto flex flex-col justify-center select-text"
     >
-      <div className="mb-6 text-left">
+      <div className="mb-6 text-left w-full">
         <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
           Create your account
         </h1>
@@ -100,7 +100,7 @@ export const SignUpEmailForm: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="focus:outline-none flex items-center justify-center p-1"
+              className="focus:outline-none flex items-center justify-center p-1 cursor-pointer"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
@@ -120,7 +120,7 @@ export const SignUpEmailForm: React.FC = () => {
           disabled={isSubmitting}
         />
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 w-full">
           <Input
             label={
               <span>
@@ -137,7 +137,7 @@ export const SignUpEmailForm: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="focus:outline-none flex items-center justify-center p-1"
+                className="focus:outline-none flex items-center justify-center p-1 cursor-pointer"
                 aria-label={
                   showConfirmPassword ? "Hide password" : "Show password"
                 }
@@ -158,14 +158,14 @@ export const SignUpEmailForm: React.FC = () => {
             required
             disabled={isSubmitting}
           />
-          <p className="text-xs xl:text-xs text-text-dark italic leading-relaxed max-w-110 font-normal mt-1">
+          <p className="text-xs xl:text-xs text-text-dark italic leading-relaxed font-normal mt-1">
             Your password must be at least 8 characters long and include one
             uppercase letter, one lowercase letter, one number, and one special
             character (e.g., @, #, $, %).
           </p>
         </div>
 
-        <div className="w-full max-w-110 flex justify-end -mt-1 select-none">
+        <div className="w-full flex justify-end -mt-1 select-none">
           <Link
             href={`/verify?email=${encodeURIComponent(email)}&flow=signup`}
             className="text-primary-solid font-bold text-xs xl:text-sm hover:text-primary-hover transition-colors"
@@ -179,7 +179,7 @@ export const SignUpEmailForm: React.FC = () => {
             type="submit"
             variant="secondary"
             size="normal"
-            className="w-full max-w-110 h-12.5 text-white font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
+            className="w-full h-12.5 text-white font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -211,7 +211,7 @@ export const SignUpEmailForm: React.FC = () => {
           </Button>
         </div>
 
-        <div className="w-full max-w-110 flex items-center gap-4 my-1 select-none">
+        <div className="w-full flex items-center gap-4 my-1 select-none">
           <div className="flex-1 h-px bg-border-gray/70" />
           <span className="text-neutral-secondary text-xs font-normal">or</span>
           <div className="flex-1 h-px bg-border-gray/70" />
@@ -230,7 +230,7 @@ export const SignUpEmailForm: React.FC = () => {
               })
             }
             disabled={isSubmitting}
-            className="w-full max-w-110 h-12.5 text-text-dark font-medium text-sm xl:text-base cursor-pointer"
+            className="w-full h-12.5 text-text-dark font-medium text-sm xl:text-base cursor-pointer"
           >
             <Image
               src={googleIcon}
@@ -238,7 +238,7 @@ export const SignUpEmailForm: React.FC = () => {
               width={20}
               height={20}
               className="w-5 h-5 mr-3 shrink-0"
-              style={{ width: "auto", height: "auto" }}
+              style={{ width: "20px", height: "20px" }}
             />
             Continue with Google
           </Button>
@@ -255,14 +255,14 @@ export const SignUpEmailForm: React.FC = () => {
               })
             }
             disabled={isSubmitting}
-            className="w-full max-w-110 h-12.5 text-text-dark font-medium text-sm xl:text-base cursor-pointer"
+            className="w-full h-12.5 text-text-dark font-medium text-sm xl:text-base cursor-pointer"
           >
             <FaApple className="w-5 h-5 mr-3 shrink-0 text-black" />
             Continue with Apple
           </Button>
         </div>
 
-        <div className="w-full max-w-110 text-center mt-2 text-sm select-none">
+        <div className="w-full text-center mt-2 text-sm select-none">
           <span className="text-neutral-secondary font-normal">
             Already have an account?
           </span>

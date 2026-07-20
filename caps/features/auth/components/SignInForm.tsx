@@ -55,9 +55,9 @@ export const SignInForm: React.FC = () => {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full flex flex-col justify-center select-text"
+      className="w-full max-w-110 mx-auto flex flex-col justify-center select-text"
     >
-      <div className="mb-8 text-left">
+      <div className="mb-8 text-left w-full">
         <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
           Sign in to ELIMI
         </h1>
@@ -89,18 +89,18 @@ export const SignInForm: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="focus:outline-none flex items-center justify-center p-1"
+              className="focus:outline-none flex items-center justify-center p-1 cursor-pointer"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
-                <FiEye className="w-5 h-5" />
+                <FiEye className="w-5 h-5 text-text-dark/70" />
               ) : (
                 <Image
                   src={eyeClosedIcon}
                   alt="Hide password"
                   width={20}
                   height={20}
-                  className="w-5 h-5"
+                  className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity"
                 />
               )}
             </button>
@@ -109,7 +109,7 @@ export const SignInForm: React.FC = () => {
           disabled={isSubmitting}
         />
 
-        <div className="flex justify-between items-center w-full max-w-110 text-sm -mt-1 select-none">
+        <div className="flex justify-between items-center w-full text-sm -mt-1 select-none">
           <Link
             href="/signup"
             className="text-primary-solid font-bold text-xs xl:text-sm hover:text-primary-hover transition-colors"
@@ -129,7 +129,7 @@ export const SignInForm: React.FC = () => {
             type="submit"
             variant="secondary"
             size="normal"
-            className="w-full max-w-110 h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm"
+            className="w-full h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -160,7 +160,7 @@ export const SignInForm: React.FC = () => {
             )}
           </Button>
         </div>
-        <div className="w-full max-w-110 flex items-center gap-4 my-3 select-none">
+        <div className="w-full flex items-center gap-4 my-3 select-none">
           <div className="flex-1 h-[1.5px] bg-border-gray" />
           <span className="text-neutral-secondary text-xs xl:text-sm font-medium whitespace-nowrap">
             or continue with
@@ -174,13 +174,13 @@ export const SignInForm: React.FC = () => {
           size="normal"
           onClick={() => alert("Google SSO Integration Clicked")}
           disabled={isSubmitting}
-          className="w-full max-w-110 h-12.5 text-text-dark font-medium text-sm xl:text-base cursor-pointer"
+          className="w-full h-12.5 text-text-dark font-medium text-sm xl:text-base cursor-pointer"
         >
           <FcGoogle className="w-5 h-5 mr-3 shrink-0" />
           Continue with Google
         </Button>
 
-        <div className="w-full max-w-110 text-center mt-3 text-sm select-none">
+        <div className="w-full text-center mt-3 text-sm select-none">
           <span className="text-neutral-secondary font-normal">
             Don't have an account?
           </span>

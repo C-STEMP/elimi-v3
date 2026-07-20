@@ -152,9 +152,9 @@ export const VerifyEmailForm: React.FC = () => {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full flex flex-col justify-center select-text"
+      className="w-full max-w-110 mx-auto flex flex-col justify-center select-text"
     >
-      <div className="mb-6 text-left">
+      <div className="mb-6 text-left w-full">
         <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
           Verify your Email
         </h1>
@@ -166,7 +166,7 @@ export const VerifyEmailForm: React.FC = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
-        <div className="flex justify-between gap-2 max-w-110">
+        <div className="flex justify-between gap-2 w-full">
           {code.map((val, index) => {
             const firstEmptyIndex = code.findIndex((v) => v === "");
             const isFocused =
@@ -202,7 +202,7 @@ export const VerifyEmailForm: React.FC = () => {
             type="submit"
             variant="secondary"
             size="normal"
-            className="w-full max-w-110 h-12.5 text-white font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
+            className="w-full h-12.5 text-white font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -238,7 +238,7 @@ export const VerifyEmailForm: React.FC = () => {
           {formatTime(timeLeft)}
         </div>
 
-        <div className="w-full max-w-110 text-center text-sm select-none -mt-2">
+        <div className="w-full text-center text-sm select-none -mt-2">
           <span className="text-neutral-secondary font-normal">
             Didn't get a code?
           </span>

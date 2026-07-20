@@ -5,11 +5,19 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
-export const WelcomeView: React.FC = () => {
+export interface WelcomeViewProps {
+  onGetStarted?: () => void;
+}
+
+export const WelcomeView: React.FC<WelcomeViewProps> = ({ onGetStarted }) => {
   const router = useRouter();
 
   const handleGetStarted = () => {
-    router.push("/signin");
+    if (onGetStarted) {
+      onGetStarted();
+    } else {
+      router.push("/role-selection");
+    }
   };
 
   return (

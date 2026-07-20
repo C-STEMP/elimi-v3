@@ -10,6 +10,6 @@ const OnboardingWizardView = dynamic(
   { ssr: false }
 );
 
-export default function WelcomePage() {
+export default function RoleSelectionPage() {
   return <OnboardingWizardView />;
 }

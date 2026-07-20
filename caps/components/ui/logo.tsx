@@ -19,8 +19,8 @@ export const Logo: React.FC<LogoProps> = ({
         width={141}
         height={80}
         priority
-        className="object-cover w-auto h-auto"
-        style={{ width: "auto", height: "auto" }}
+        className="object-cover"
+        style={{ width: "141px", height: "80px" }}
       />
     </div>
   );

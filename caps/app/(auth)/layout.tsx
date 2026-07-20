@@ -7,11 +7,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen w-full flex bg-white font-sans antialiased">
+    <div className="h-screen w-full flex bg-white font-sans antialiased overflow-hidden">
       <AuthSidebar />
 
-      <div className="flex-1 flex flex-col justify-center items-center p-6 md:p-12 xl:p-16 bg-white min-h-screen relative">
-        <div className="w-full max-w-110 flex flex-col">{children}</div>
+      <div className="flex-1 h-screen overflow-y-auto flex flex-col items-center p-6 md:p-10 xl:p-12 bg-white relative">
+        <div className="w-full flex flex-col items-center my-auto py-6">{children}</div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Work_Sans } from "next/font/google";
 import { ToastProvider } from "@/components/ui/toast";
+import { ReduxProvider } from "@/store/provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -35,8 +36,13 @@ export default function RootLayout({
       className={`${inter.variable} ${workSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-white font-sans text-dark">
-        <ToastProvider>{children}</ToastProvider>
+      <body
+        className="min-h-full flex flex-col bg-white font-sans text-dark"
+        suppressHydrationWarning
+      >
+        <ReduxProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

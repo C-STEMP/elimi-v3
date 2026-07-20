@@ -54,9 +54,9 @@ export const ForgotPasswordForm: React.FC = () => {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full flex flex-col justify-center select-text"
+      className="w-full max-w-110 mx-auto flex flex-col justify-center select-text"
     >
-      <div className="mb-8 text-left">
+      <div className="mb-8 text-left w-full">
         <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
           Forgot Password
         </h1>
@@ -82,7 +82,7 @@ export const ForgotPasswordForm: React.FC = () => {
             type="submit"
             variant="secondary"
             size="normal"
-            className="w-full max-w-110 h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm"
+            className="w-full h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -114,7 +114,7 @@ export const ForgotPasswordForm: React.FC = () => {
           </Button>
         </div>
 
-        <div className="w-full max-w-110 text-center mt-3 text-sm select-none">
+        <div className="w-full text-center mt-3 text-sm select-none">
           <span className="text-neutral-secondary font-normal">
             Go to
           </span>

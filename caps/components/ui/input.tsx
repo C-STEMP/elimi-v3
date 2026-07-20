@@ -1,21 +1,26 @@
 import * as React from "react";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "prefix"> {
   label?: React.ReactNode;
   error?: string;
   helperText?: React.ReactNode;
   suffix?: React.ReactNode;
+  prefix?: React.ReactNode;
+  containerClassName?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
       className = "",
+      containerClassName = "",
       type = "text",
       label,
       error,
       helperText,
       suffix,
+      prefix,
       id,
       ...props
     },
@@ -24,25 +29,30 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputId = id || React.useId();
 
     return (
-      <div className="flex flex-col gap-1.5 w-full max-w-110 min-w-30">
+      <div className={`flex flex-col gap-1.5 w-full ${containerClassName}`}>
         {label && (
           <label
             htmlFor={inputId}
-            className="font-sans text-text-dark font-semibold text-sm xl:text-base leading-[1.4] select-none"
+            className="font-sans text-text-dark font-medium text-xs xl:text-sm leading-[1.4] select-none"
           >
             {label}
           </label>
         )}
         <div className="relative w-full">
+          {prefix && (
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-text-dark/60 select-none pointer-events-none">
+              {prefix}
+            </div>
+          )}
           <input
             ref={ref}
             type={type}
             id={inputId}
             className={`
-              w-full h-12.5
-              pl-4 ${suffix ? "pr-12" : "pr-4"} py-3
+              w-full h-11 xl:h-12
+              ${prefix ? "pl-11" : "pl-4"} ${suffix ? "pr-11" : "pr-4"} py-2.5
               bg-input-bg
-              text-text-dark
+              text-text-dark font-normal text-sm
               border border-transparent
               rounded-radius-200
               transition-all duration-200 ease-in-out
@@ -63,7 +73,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {suffix && (
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-text-dark/60 hover:text-text-dark transition-colors cursor-pointer select-none">
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center text-text-dark/60 hover:text-text-dark transition-colors cursor-pointer select-none">
               {suffix}
             </div>
           )}

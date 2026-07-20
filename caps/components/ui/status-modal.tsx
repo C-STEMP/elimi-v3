@@ -34,8 +34,8 @@ export const StatusModal: React.FC<StatusModalProps> = ({
           alt={title}
           width={140}
           height={140}
-          className="object-contain w-auto h-auto"
-          style={{ width: "auto", height: "auto" }}
+          className="object-contain"
+          style={{ width: "140px", height: "140px" }}
           priority
         />
       );
@@ -48,16 +48,15 @@ export const StatusModal: React.FC<StatusModalProps> = ({
           alt="Success Checkmark"
           width={140}
           height={140}
-          className="object-contain w-auto h-auto"
-          style={{ width: "auto", height: "auto" }}
+          className="object-contain"
+          style={{ width: "140px", height: "140px" }}
           priority
         />
       );
     }
 
-    // Default high-fidelity circular error icon matching the theme
     return (
-      <div className="w-[140px] h-[140px] flex items-center justify-center bg-red-50 rounded-full border-4 border-red-100 shadow-sm animate-pulse">
+      <div className="w-35 h-35 flex items-center justify-center bg-red-50 rounded-full border-4 border-red-100 shadow-sm animate-pulse">
         <svg
           width="80"
           height="80"
@@ -84,7 +83,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-[32px] p-10 max-w-[420px] w-full flex flex-col items-center text-center shadow-2xl relative animate-slide-in"
+        className="bg-white rounded-4xl p-10 max-w-105 w-full flex flex-col items-center text-center shadow-2xl relative animate-slide-in"
         onClick={(e) => e.stopPropagation()}
       >
         {onClose && (
@@ -111,7 +110,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({
           </button>
         )}
 
-        <div className="w-[140px] h-[140px] relative flex items-center justify-center">
+        <div className="w-35 h-35 relative flex items-center justify-center">
           {renderIcon()}
         </div>
 
@@ -119,7 +118,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({
           {title}
         </h2>
 
-        <p className="text-neutral-secondary text-[14px] leading-relaxed mt-2 font-normal max-w-[280px]">
+        <p className="text-neutral-secondary text-[14px] leading-relaxed mt-2 font-normal max-w-70">
           {description}
         </p>
 

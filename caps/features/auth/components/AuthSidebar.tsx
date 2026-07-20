@@ -1,41 +1,11 @@
-"use client";
-
 import * as React from "react";
 import { Logo } from "@/components/ui/logo";
-import { motion } from "framer-motion";
+import { FloatingCircles } from "./FloatingCircles";
 
 export const AuthSidebar: React.FC = () => {
   return (
-    <div className="hidden lg:flex lg:w-[40%] bg-primary-solid flex-col justify-between p-12 xl:p-16 relative overflow-hidden select-none">
-      <motion.div
-        animate={{
-          y: [0, -15, 0],
-          x: [0, 10, 0],
-          scale: [1, 1.05, 1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute -top-28 -right-60 w-105 h-105 rounded-full bg-white/6 pointer-events-none z-0"
-        aria-hidden="true"
-      />
-
-      <motion.div
-        animate={{
-          y: [0, 15, 0],
-          x: [0, -10, 0],
-          scale: [1, 0.95, 1],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute bottom-8 -left-42 w-90 h-90 rounded-full bg-secondary/15 pointer-events-none z-0"
-        aria-hidden="true"
-      />
+    <div className="hidden lg:flex lg:w-[40%] h-screen sticky top-0 shrink-0 bg-primary-solid flex-col justify-between p-12 xl:p-16 relative overflow-hidden select-none">
+      <FloatingCircles />
 
       <div className="relative z-10 flex flex-col h-full justify-between">
         <div className="flex flex-col gap-7">

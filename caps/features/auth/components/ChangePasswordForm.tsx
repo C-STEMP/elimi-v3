@@ -56,9 +56,9 @@ export const ChangePasswordForm: React.FC = () => {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full flex flex-col justify-center select-text"
+      className="w-full max-w-110 mx-auto flex flex-col justify-center select-text"
     >
-      <div className="mb-8 text-left">
+      <div className="mb-8 text-left w-full">
         <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
           Change Password
         </h1>
@@ -79,18 +79,18 @@ export const ChangePasswordForm: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="focus:outline-none flex items-center justify-center p-1"
+              className="focus:outline-none flex items-center justify-center p-1 cursor-pointer"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
-                <FiEye className="w-5 h-5" />
+                <FiEye className="w-5 h-5 text-text-dark/70" />
               ) : (
                 <Image
                   src={eyeClosedIcon}
                   alt="Hide password"
                   width={20}
                   height={20}
-                  className="w-5 h-5"
+                  className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity"
                 />
               )}
             </button>
@@ -110,18 +110,18 @@ export const ChangePasswordForm: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="focus:outline-none flex items-center justify-center p-1"
+              className="focus:outline-none flex items-center justify-center p-1 cursor-pointer"
               aria-label={showConfirmPassword ? "Hide password" : "Show password"}
             >
               {showConfirmPassword ? (
-                <FiEye className="w-5 h-5" />
+                <FiEye className="w-5 h-5 text-text-dark/70" />
               ) : (
                 <Image
                   src={eyeClosedIcon}
                   alt="Hide password"
                   width={20}
                   height={20}
-                  className="w-5 h-5"
+                  className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity"
                 />
               )}
             </button>
@@ -135,7 +135,7 @@ export const ChangePasswordForm: React.FC = () => {
             type="submit"
             variant="secondary"
             size="normal"
-            className="w-full max-w-110 h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm"
+            className="w-full h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -167,7 +167,7 @@ export const ChangePasswordForm: React.FC = () => {
           </Button>
         </div>
 
-        <div className="w-full max-w-110 text-center mt-3 text-sm select-none">
+        <div className="w-full text-center mt-3 text-sm select-none">
           <span className="text-neutral-secondary font-normal">
             Go to
           </span>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import Image from "next/image";
+import { logoIcon } from "@/assets";
 
 interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   theme?: "light" | "dark";
@@ -13,12 +14,13 @@ export const Logo: React.FC<LogoProps> = ({
   return (
     <div className={`flex items-center select-none ${className}`} {...props}>
       <Image
-        src="/icons/LOGO-STANDARD-2.svg"
+        src={logoIcon}
         alt="ELIMI Logo"
         width={141}
         height={80}
         priority
-        className="object-cover"
+        className="object-cover w-auto h-auto"
+        style={{ width: "auto", height: "auto" }}
       />
     </div>
   );

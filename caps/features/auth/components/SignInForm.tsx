@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { eyeClosedIcon } from "@/assets";
 import { FiEye } from "react-icons/fi";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
@@ -45,7 +46,7 @@ export const SignInForm: React.FC = () => {
           title: "Incorrect Details",
           description: "Invalid email or password",
         });
-      }
+      } 
     }, 1200);
   };
 
@@ -95,7 +96,7 @@ export const SignInForm: React.FC = () => {
                 <FiEye className="w-5 h-5" />
               ) : (
                 <Image
-                  src="/icons/eye-closed.svg"
+                  src={eyeClosedIcon}
                   alt="Hide password"
                   width={20}
                   height={20}
@@ -167,15 +168,17 @@ export const SignInForm: React.FC = () => {
           <div className="flex-1 h-[1.5px] bg-border-gray" />
         </div>
 
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="normal"
           onClick={() => alert("Google SSO Integration Clicked")}
           disabled={isSubmitting}
-          className="w-full max-w-110 h-12.5 flex items-center justify-center border border-border-gray hover:bg-bg-light transition-all rounded-radius-200 bg-white shadow-xs focus:outline-none focus:ring-2 focus:ring-gray-100 font-semibold text-text-dark text-sm xl:text-base disabled:opacity-50 select-none active:scale-[0.98] cursor-pointer"
+          className="w-full max-w-110 h-12.5 text-text-dark font-medium text-sm xl:text-base cursor-pointer"
         >
           <FcGoogle className="w-5 h-5 mr-3 shrink-0" />
           Continue with Google
-        </button>
+        </Button>
 
         <div className="w-full max-w-110 text-center mt-3 text-sm select-none">
           <span className="text-neutral-secondary font-normal">

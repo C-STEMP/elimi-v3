@@ -3,19 +3,32 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
+import { StatusModal } from "@/components/ui/status-modal";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 export const VerifyEmailForm: React.FC = () => {
-  const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [code, setCode] = useState<string[]>(["4", "8", "2", "", "", ""]);
+  const [timeLeft, setTimeLeft] = useState(47);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
 
-  const email = searchParams.get("email") || "";
+  const rawEmail = searchParams.get("email") || "chidi.umeh@email.com";
+
+  const maskEmail = (emailStr: string) => {
+    if (!emailStr) return "chidi*****@email.com";
+    const parts = emailStr.split("@");
+    if (parts.length !== 2) return emailStr;
+    const [name, domain] = parts;
+    const prefix = name.slice(0, 5);
+    return `${prefix}*****@${domain}`;
+  };
+
+  const formattedEmail = maskEmail(rawEmail);
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
   const mountedRef = useRef(false);
 
@@ -89,12 +102,11 @@ export const VerifyEmailForm: React.FC = () => {
   };
 
   const handleResend = () => {
-    setTimeLeft(59); 
+    setTimeLeft(60);
     toast({
       type: "success",
       title: "Code Resent",
-      description:
-        "A new verification code has been sent to your email address.",
+      description: "A new verification code has been sent to your email address.",
     });
   };
 
@@ -103,40 +115,36 @@ export const VerifyEmailForm: React.FC = () => {
     const fullCode = code.join("");
 
     if (fullCode.length < 6) {
-      toast({
-        type: "error",
-        title: "Incomplete Code",
-        description: "Please enter the full 6-digit code.",
-      });
-      return;
+      // For demonstration in prototype, if fullCode has entries or submit is clicked, allow verification
+      if (fullCode.length === 0) {
+        toast({
+          type: "error",
+          title: "Incomplete Code",
+          description: "Please enter the verification code.",
+        });
+        return;
+      }
     }
 
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
+      setShowSuccessModal(true);
+    }, 1000);
+  };
 
-      if (fullCode === "482000" || fullCode === "482123") {
-        toast({
-          type: "success",
-          title: "Email Verified",
-          description: "Your email address has been verified successfully.",
-        });
-        setTimeout(() => {
-          const flow = searchParams.get("flow") || "forgot";
-          if (flow === "signup") {
-            router.push(`/complete-signup?email=${encodeURIComponent(email)}`);
-          } else {
-            router.push("/change-password");
-          }
-        }, 1500);
-      } else {
-        toast({
-          type: "error",
-          title: "Verification Failed",
-          description: "Invalid verification code. Please try again.",
-        });
-      }
-    }, 1200);
+  useEffect(() => {
+    if (showSuccessModal) {
+      const timer = setTimeout(() => {
+        router.push("/welcome");
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessModal, router]);
+
+  const handleModalAction = () => {
+    setShowSuccessModal(false);
+    router.push("/welcome");
   };
 
   return (
@@ -146,52 +154,59 @@ export const VerifyEmailForm: React.FC = () => {
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="w-full flex flex-col justify-center select-text"
     >
-      <div className="mb-8 text-left">
+      <div className="mb-6 text-left">
         <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
-          Verify your email
+          Verify your Email
         </h1>
-        <p className="text-neutral-secondary text-[14px] xl:text-[15px] leading-relaxed mt-2 max-w-sm font-normal">
+        <p className="text-neutral-secondary text-[14px] xl:text-[15px] leading-relaxed mt-1.5 max-w-sm font-normal">
           We sent a 6-digit code to{" "}
-          <span className="font-semibold">{email}</span>. It expires in 10
-          minutes.
+          <span className="font-semibold text-neutral-primary">{formattedEmail}</span>. It
+          expires in 10 minutes.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
         <div className="flex justify-between gap-2 max-w-110">
-          {code.map((val, index) => (
-            <input
-              key={index}
-              ref={(el) => {
-                inputsRef.current[index] = el;
-              }}
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={1}
-              value={val}
-              onChange={(e) => handleChange(index, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              onPaste={index === 0 ? handlePaste : undefined}
-              disabled={isSubmitting}
-              className={`w-12 h-14 md:w-13 md:h-15 rounded-radius-200 border text-center text-xl font-bold outline-none transition-all duration-200
-                ${val ? "bg-input-bg border-transparent text-text-dark" : "bg-white border-border-gray/60"}
-                focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:bg-white
-              `}
-            />
-          ))}
+          {code.map((val, index) => {
+            const firstEmptyIndex = code.findIndex((v) => v === "");
+            const isFocused =
+              firstEmptyIndex === index ||
+              (firstEmptyIndex === -1 && index === 5);
+            return (
+              <input
+                key={index}
+                ref={(el) => {
+                  inputsRef.current[index] = el;
+                }}
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={1}
+                value={val}
+                onChange={(e) => handleChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                onPaste={index === 0 ? handlePaste : undefined}
+                disabled={isSubmitting}
+                className={`w-12 h-14 md:w-13 md:h-15 rounded-radius-200 border text-center text-xl font-bold outline-none transition-all duration-200
+                  ${val ? "bg-input-bg text-text-dark border-transparent" : "bg-white border-border-gray/60"}
+                  ${isFocused ? "border-secondary! ring-2! ring-secondary/30! bg-white!" : ""}
+                  focus:border-secondary focus:ring-2 focus:ring-secondary/30 focus:bg-white
+                `}
+              />
+            );
+          })}
         </div>
 
-        <div className="w-full mt-2">
+        <div className="w-full">
           <Button
             type="submit"
             variant="secondary"
             size="normal"
-            className="w-full max-w-110 h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm"
+            className="w-full max-w-110 h-12.5 text-white font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
-              <span className="flex items-center gap-2 justify-center text-neutral-burgundy font-semibold leading-tight">
+              <span className="flex items-center gap-2 justify-center text-white font-semibold leading-tight">
                 <svg
                   className="animate-spin h-5 w-5 text-white"
                   fill="none"
@@ -219,11 +234,11 @@ export const VerifyEmailForm: React.FC = () => {
           </Button>
         </div>
 
-        <div className="text-center text-sm font-bold text-text-dark -mt-1 select-none">
+        <div className="text-center text-sm font-semibold text-neutral-secondary -mt-2 select-none">
           {formatTime(timeLeft)}
         </div>
 
-        <div className="w-full max-w-110 text-center text-sm select-none">
+        <div className="w-full max-w-110 text-center text-sm select-none -mt-2">
           <span className="text-neutral-secondary font-normal">
             Didn't get a code?
           </span>
@@ -236,6 +251,15 @@ export const VerifyEmailForm: React.FC = () => {
           </button>
         </div>
       </form>
+
+      <StatusModal
+        isOpen={showSuccessModal}
+        onClose={handleModalAction}
+        type="success"
+        title="Congratulations"
+        description="Your Account was created successfully"
+      />
     </motion.div>
   );
 };
+

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 
 export interface Toast {
   id: string;
-  type: "success" | "error";
+  type: "success" | "error" | "info";
   title: string;
   description: string;
   duration?: number;
@@ -44,6 +44,19 @@ const ErrorIcon = () => (
     <circle cx="10" cy="10" r="10" fill="#B3261E" />
     <path
       d="M7 7L13 13M13 7L7 13"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const InfoIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 mt-0.5">
+    <circle cx="10" cy="10" r="10" fill="#0284C7" />
+    <path
+      d="M10 6V10M10 14H10.01"
       stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
@@ -107,7 +120,18 @@ const ToastItem: React.FC<{ toast: Toast; onDismiss: () => void }> = ({ toast, o
     };
   }, [duration, onDismiss]);
 
-  const progressBarColor = type === "success" ? "bg-[#1E7F4C]" : "bg-[#B3261E]";
+  const progressBarColor =
+    type === "success"
+      ? "bg-[#1E7F4C]"
+      : type === "error"
+      ? "bg-[#B3261E]"
+      : "bg-[#0284C7]";
+
+  const renderToastIcon = () => {
+    if (type === "success") return <SuccessIcon />;
+    if (type === "error") return <ErrorIcon />;
+    return <InfoIcon />;
+  };
 
   return (
     <div
@@ -117,7 +141,7 @@ const ToastItem: React.FC<{ toast: Toast; onDismiss: () => void }> = ({ toast, o
         boxShadow: "4px 4px 11.6px 0px rgba(0, 0, 0, 0.15)",
       }}
     >
-      {type === "success" ? <SuccessIcon /> : <ErrorIcon />}
+      {renderToastIcon()}
       <div className="flex flex-col gap-0.5">
         <span className="text-[15px] font-bold text-text-dark leading-tight">
           {title}
@@ -127,7 +151,7 @@ const ToastItem: React.FC<{ toast: Toast; onDismiss: () => void }> = ({ toast, o
         </span>
       </div>
       <div
-        className={`absolute bottom-0 left-0 h-[4px] ${progressBarColor}`}
+        className={`absolute bottom-0 left-0 h-1 ${progressBarColor}`}
         style={{
           width,
           transition: `width ${duration}ms linear`,

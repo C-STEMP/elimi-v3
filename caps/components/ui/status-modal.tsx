@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "./button";
+import { successCheckmarkImg } from "@/assets";
 
 interface StatusModalProps {
   isOpen: boolean;
@@ -8,8 +9,8 @@ interface StatusModalProps {
   type: "success" | "error";
   title: string;
   description: string;
-  actionLabel: string;
-  onAction: () => void;
+  actionLabel?: string;
+  onAction?: () => void;
   iconSrc?: string;
 }
 
@@ -33,7 +34,8 @@ export const StatusModal: React.FC<StatusModalProps> = ({
           alt={title}
           width={140}
           height={140}
-          className="object-contain"
+          className="object-contain w-auto h-auto"
+          style={{ width: "auto", height: "auto" }}
           priority
         />
       );
@@ -42,11 +44,12 @@ export const StatusModal: React.FC<StatusModalProps> = ({
     if (type === "success") {
       return (
         <Image
-          src="/icons/success-checkmark.png"
+          src={successCheckmarkImg}
           alt="Success Checkmark"
           width={140}
           height={140}
-          className="object-contain"
+          className="object-contain w-auto h-auto"
+          style={{ width: "auto", height: "auto" }}
           priority
         />
       );
@@ -120,14 +123,16 @@ export const StatusModal: React.FC<StatusModalProps> = ({
           {description}
         </p>
 
-        <Button
-          onClick={onAction}
-          variant="secondary"
-          size="normal"
-          className="w-full h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover mt-8 transition-all shadow-sm"
-        >
-          {actionLabel}
-        </Button>
+        {actionLabel && onAction && (
+          <Button
+            onClick={onAction}
+            variant="secondary"
+            size="normal"
+            className="w-full h-12.5 text-white font-bold text-base bg-secondary hover:bg-secondary-hover mt-8 transition-all shadow-sm cursor-pointer"
+          >
+            {actionLabel}
+          </Button>
+        )}
       </div>
     </div>
   );

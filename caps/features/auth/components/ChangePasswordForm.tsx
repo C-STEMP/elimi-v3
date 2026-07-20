@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { eyeClosedIcon } from "@/assets";
 import { FiEye } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
@@ -85,7 +86,7 @@ export const ChangePasswordForm: React.FC = () => {
                 <FiEye className="w-5 h-5" />
               ) : (
                 <Image
-                  src="/icons/eye-closed.svg"
+                  src={eyeClosedIcon}
                   alt="Hide password"
                   width={20}
                   height={20}
@@ -116,7 +117,7 @@ export const ChangePasswordForm: React.FC = () => {
                 <FiEye className="w-5 h-5" />
               ) : (
                 <Image
-                  src="/icons/eye-closed.svg"
+                  src={eyeClosedIcon}
                   alt="Hide password"
                   width={20}
                   height={20}

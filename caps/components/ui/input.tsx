@@ -1,9 +1,9 @@
 import * as React from "react";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: React.ReactNode;
   error?: string;
-  helperText?: string;
+  helperText?: React.ReactNode;
   suffix?: React.ReactNode;
 }
 
@@ -24,12 +24,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputId = id || React.useId();
 
     return (
-      <div className="flex flex-col gap-2 w-full max-w-110 min-w-30">
+      <div className="flex flex-col gap-1.5 w-full max-w-110 min-w-30">
         {label && (
           <label
             htmlFor={inputId}
-            className="font-sans text-text-dark font-normal text-base leading-[1.4] select-none"
-            style={{ fontStyle: "normal" }}
+            className="font-sans text-text-dark font-semibold text-sm xl:text-base leading-[1.4] select-none"
           >
             {label}
           </label>
@@ -44,14 +43,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               pl-4 ${suffix ? "pr-12" : "pr-4"} py-3
               bg-input-bg
               text-text-dark
-              border
+              border border-transparent
               rounded-radius-200
               transition-all duration-200 ease-in-out
               outline-none
-                                                                                     
-              focus:border-none
+              placeholder:text-gray-400
+              
+              focus:border-primary-solid/40
               focus:ring-2
-              focus:ring-border-secondary
+              focus:ring-primary-solid/10
               
               /* Error override styling if error is present */
               ${error ? "border-primary-solid ring-2 ring-border-secondary" : ""}
@@ -63,7 +63,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {suffix && (
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-text-dark/50 hover:text-text-dark transition-colors cursor-pointer select-none">
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-text-dark/60 hover:text-text-dark transition-colors cursor-pointer select-none">
               {suffix}
             </div>
           )}
@@ -74,9 +74,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </span>
         )}
         {!error && helperText && (
-          <span className="text-gray-500 text-xs leading-[1.4]">
+          <div className="text-neutral-secondary text-xs leading-[1.4]">
             {helperText}
-          </span>
+          </div>
         )}
       </div>
     );

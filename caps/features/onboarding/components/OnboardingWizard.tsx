@@ -8,16 +8,16 @@ import {
   setSidebarVariant,
   setRplStep,
 } from "@/store/slices/authSlice";
-import { Welcome } from "./Welcome";
-import { RoleSelection } from "./RoleSelection";
-import { AssessmentType } from "./AssessmentType";
-import { PersonalInfo } from "./PersonalInfo";
-import { Success } from "./Success";
-import { StartApplication } from "./StartApplication";
-import { RPLPersonalInfo } from "@/features/rpl/components/PersonalInfo";
-import { RPLExperienceTrade } from "@/features/rpl/components/ExperienceTrade";
-import { RPLVerifyIdentity } from "@/features/rpl/components/VerifyIdentity";
-import { RPLReviewSubmit } from "@/features/rpl/components/ReviewSubmit";
+import { Welcome } from "@/features/onboarding/pages/Welcome";
+import { RoleSelection } from "@/features/onboarding/pages/RoleSelection";
+import { AssessmentType } from "@/features/onboarding/pages/AssessmentType";
+import { PersonalInfo } from "@/features/onboarding/pages/PersonalInfo";
+import { Success } from "@/features/onboarding/pages/Success";
+import { StartApplication } from "@/features/onboarding/pages/StartApplication";
+import { RPLPersonalInfo } from "@/features/rpl/pages/PersonalInfo";
+import { RPLExperienceTrade } from "@/features/rpl/pages/ExperienceTrade";
+import { RPLVerifyIdentity } from "@/features/rpl/pages/VerifyIdentity";
+import { RPLReviewSubmit } from "@/features/rpl/pages/ReviewSubmit";
 import { AnimatePresence, motion } from "framer-motion";
 
 type WizardStep =

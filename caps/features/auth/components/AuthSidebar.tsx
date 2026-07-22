@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Logo } from "@/components/ui/logo";
 import { FloatingCircles } from "./FloatingCircles";
+import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
-
 import { FiCheck } from "react-icons/fi";
 
 const RPL_STEPS = [
@@ -15,15 +15,34 @@ const RPL_STEPS = [
 ];
 
 export const AuthSidebar: React.FC = () => {
+  const pathname = usePathname();
   const sidebarVariant = useAppSelector((state) => state.auth.sidebarVariant);
   const rplStep = useAppSelector((state) => state.auth.rplStep);
+
+  const nonRplRoutes = [
+    "/signin",
+    "/signup",
+    "/forgot-password",
+    "/change-password",
+    "/verify",
+    "/welcome",
+    "/onboarding",
+  ];
+
+  const isExplicitNonRplRoute = nonRplRoutes.some((route) =>
+    pathname?.startsWith(route)
+  );
+
+  const isRplRoute =
+    !isExplicitNonRplRoute &&
+    (pathname?.includes("/rpl") || sidebarVariant === "rpl-form");
 
   return (
     <div suppressHydrationWarning className="hidden lg:flex lg:w-[40%] h-screen sticky top-0 shrink-0 bg-primary-solid flex-col justify-between p-12 xl:p-16 overflow-hidden select-none">
       <FloatingCircles />
 
       <div suppressHydrationWarning className="relative z-10 flex flex-col h-full justify-between">
-        {sidebarVariant === "rpl-form" ? (
+        {isRplRoute ? (
           <div suppressHydrationWarning className="flex flex-col gap-8">
             <div suppressHydrationWarning>
               <Logo theme="light" />

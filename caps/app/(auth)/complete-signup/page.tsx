@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { CompleteSignUp } from "@/features/auth/components/CompleteSignUp";
+import { CompleteSignUp } from "@/features/auth/pages/CompleteSignUp";
 
 export default function CompleteSignUpPage() {
   return (

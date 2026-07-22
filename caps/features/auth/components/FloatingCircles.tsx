@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 export const FloatingCircles: React.FC = () => (
   <>
     <motion.div
+      suppressHydrationWarning
       animate={{
         y: [0, -15, 0],
         x: [0, 10, 0],
@@ -20,6 +21,7 @@ export const FloatingCircles: React.FC = () => (
     />
 
     <motion.div
+      suppressHydrationWarning
       animate={{
         y: [0, 15, 0],
         x: [0, -10, 0],

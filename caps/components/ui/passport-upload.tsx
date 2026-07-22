@@ -7,7 +7,9 @@ export interface PassportUploadProps {
   onImageChange?: (file: File | null) => void;
 }
 
-export const PassportUpload: React.FC<PassportUploadProps> = ({ onImageChange }) => {
+export const PassportUpload: React.FC<PassportUploadProps> = ({
+  onImageChange,
+}) => {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -32,7 +34,7 @@ export const PassportUpload: React.FC<PassportUploadProps> = ({ onImageChange })
   return (
     <div
       onClick={() => fileInputRef.current?.click()}
-      className="relative w-[130px] sm:w-[150px] h-[130px] sm:h-[150px] bg-[#fdf2f5] border-2 border-dashed border-[#e5a2b1] rounded-2xl flex flex-col items-center justify-center p-3 text-center cursor-pointer hover:bg-[#fbe8ed] transition-all group shrink-0 select-none"
+      className="relative w-32.5 sm:w-37.5 h-32.5 sm:h-37.5 bg-[#fdf2f5] border-2 border-dashed border-primary/10 rounded-2xl flex flex-col items-center justify-center p-3 text-center cursor-pointer hover:bg-[#fbe8ed] transition-all group shrink-0 select-none"
     >
       <input
         type="file"
@@ -43,7 +45,11 @@ export const PassportUpload: React.FC<PassportUploadProps> = ({ onImageChange })
       />
       {preview ? (
         <div className="relative w-full h-full rounded-xl overflow-hidden group">
-          <img src={preview} alt="Passport Preview" className="w-full h-full object-cover" />
+          <img
+            src={preview}
+            alt="Passport Preview"
+            className="w-full h-full object-cover"
+          />
           <button
             type="button"
             onClick={handleClear}
@@ -54,14 +60,12 @@ export const PassportUpload: React.FC<PassportUploadProps> = ({ onImageChange })
         </div>
       ) : (
         <>
-          <div className="w-8 h-8 rounded-full bg-[#f8d7df] flex items-center justify-center text-[#75152b] mb-2 group-hover:scale-105 transition-transform">
-            <FiUpload className="w-4 h-4 text-[#75152b]" />
-          </div>
-          <span className="text-[#75152b] text-xs font-semibold leading-tight">
+          <FiUpload className="w-6.5 h-6.5 text-primary mb-1" />
+          <span className="text-primary text-sm font-semibold leading-tight">
             Upload Passport
           </span>
           <span className="text-[10px] text-[#8e7a7e] font-normal leading-tight mt-1">
-            5mb image max size
+            <span className="text-primary">5mb</span> image max size
           </span>
         </>
       )}

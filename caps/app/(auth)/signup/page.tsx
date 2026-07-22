@@ -1,5 +1,5 @@
-import { SignUpEmailForm } from "@/features/auth/components/SignUpEmailForm";
+import { SignUpEmail } from "@/features/auth/components/SignUpEmail";
 
 export default function SignUpPage() {
-  return <SignUpEmailForm />;
+  return <SignUpEmail />;
 }

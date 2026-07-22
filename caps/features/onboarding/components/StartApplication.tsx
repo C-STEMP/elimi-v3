@@ -1,0 +1,161 @@
+"use client";
+
+import React, { useState } from "react";
+import { Select } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { StatusModal } from "@/components/ui/status-modal";
+
+export interface StartApplicationProps {
+  onBack?: () => void;
+  onContinue?: () => void;
+}
+
+const ASSESSMENT_CENTERS = [
+  "Abuja Vocational & Technical Center",
+  "Lagos Skill Assessment Hub",
+  "Ibadan TVET Center of Excellence",
+  "Port Harcourt Trade Center",
+  "Enugu Vocational Institute",
+  "Kano Competency Assessment Center",
+];
+
+const TRADES = [
+  "Carpentry & Joinery",
+  "Electrical Installation",
+  "Plumbing & Pipefitting",
+  "Welding & Metal Fabrication",
+  "Masonry & Construction",
+  "Automotive Mechanics",
+  "Solar PV Installation",
+  "Air Conditioning & Refrigeration",
+];
+
+export const StartApplication: React.FC<StartApplicationProps> = ({
+  onBack,
+  onContinue,
+}) => {
+  const [assessmentCenter, setAssessmentCenter] = useState("");
+  const [trade, setTrade] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!assessmentCenter || !trade) {
+      toast({
+        type: "error",
+        title: "Selection Required",
+        description: "Please select both an Assessment Center and a Trade.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      if (onContinue) {
+        onContinue();
+      } else {
+        router.push("/rpl/personal-info");
+      }
+    }, 400);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="w-full max-w-110 mx-auto flex flex-col justify-center select-text"
+    >
+      <div className="mb-6 text-left w-full">
+        <h1 className="text-2xl xl:text-[26px] font-extrabold tracking-tight text-primary">
+          Start Application
+        </h1>
+        <p className="text-neutral-secondary text-xs xl:text-sm font-normal mt-2">
+          Your journey is about to start
+        </p>
+
+        <h2 className="text-xl xl:text-2xl font-extrabold tracking-tight text-neutral-primary mt-6">
+          Center Information
+        </h2>
+      </div>
+
+      <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
+        <Select
+          label={
+            <span>
+              Assessment Center
+              <span className="text-primary-solid ml-0.5">*</span>
+            </span>
+          }
+          placeholder="Select"
+          options={ASSESSMENT_CENTERS}
+          value={assessmentCenter}
+          onChange={(e) => setAssessmentCenter(e.target.value)}
+          required
+        />
+
+        <Select
+          label={
+            <span>
+              Trade<span className="text-primary-solid ml-0.5">*</span>
+            </span>
+          }
+          placeholder="Select"
+          options={TRADES}
+          value={trade}
+          onChange={(e) => setTrade(e.target.value)}
+          required
+        />
+
+        <div className="bg-[#D9D9D980] w-full h-px my-2"></div>
+
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={onBack || (() => router.back())}
+            className="flex items-center gap-2 text-neutral-secondary hover:text-neutral-primary font-semibold text-sm transition-colors cursor-pointer select-none focus:outline-none"
+          >
+            <FiArrowLeft className="w-4 h-4" />
+            Back
+          </button>
+
+          <Button
+            type="submit"
+            variant="secondary"
+            size="small"
+            disabled={isSubmitting}
+            className="px-8 h-11 bg-secondary hover:bg-secondary-hover text-white font-bold text-sm rounded-lg flex items-center gap-2 shadow-sm cursor-pointer"
+          >
+            {isSubmitting ? (
+              <span>Processing...</span>
+            ) : (
+              <>
+                Continue
+                <FiArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </Button>
+        </div>
+      </form>
+
+      <StatusModal
+        isOpen={showSuccessModal}
+        type="success"
+        title="Application Submitted"
+        description="Your assessment center and trade selections have been recorded!"
+        actionLabel="Go to Dashboard"
+        onAction={() => router.push("/signin")}
+      />
+    </motion.div>
+  );
+};

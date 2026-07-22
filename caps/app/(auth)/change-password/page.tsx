@@ -1,5 +1,5 @@
-import { ChangePasswordForm } from "@/features/auth/components/ChangePasswordForm";
+import { ChangePassword } from "@/features/auth/components/ChangePassword";
 
 export default function ChangePasswordPage() {
-  return <ChangePasswordForm />;
+  return <ChangePassword />;
 }

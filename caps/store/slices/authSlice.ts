@@ -13,6 +13,8 @@ export interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  sidebarVariant: "default" | "rpl-form";
+  rplStep: number;
 }
 
 const initialState: AuthState = {
@@ -24,6 +26,8 @@ const initialState: AuthState = {
   token: null,
   isAuthenticated: false,
   isLoading: false,
+  sidebarVariant: "default",
+  rplStep: 1,
 };
 
 export const authSlice = createSlice({
@@ -59,6 +63,15 @@ export const authSlice = createSlice({
         state.user = { email: "", assessmentType: action.payload };
       }
     },
+    setSidebarVariant: (
+      state,
+      action: PayloadAction<"default" | "rpl-form">
+    ) => {
+      state.sidebarVariant = action.payload;
+    },
+    setRplStep: (state, action: PayloadAction<number>) => {
+      state.rplStep = action.payload;
+    },
     markVerified: (state) => {
       if (state.user) {
         state.user.isVerified = true;
@@ -77,6 +90,8 @@ export const {
   updateEmail,
   setRole,
   setAssessmentType,
+  setSidebarVariant,
+  setRplStep,
   markVerified,
   logout,
 } = authSlice.actions;

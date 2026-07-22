@@ -7,7 +7,7 @@ import { StatusModal } from "@/components/ui/status-modal";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
-export const VerifyEmailForm: React.FC = () => {
+export const VerifyEmail: React.FC = () => {
   const [code, setCode] = useState<string[]>(["4", "8", "2", "", "", ""]);
   const [timeLeft, setTimeLeft] = useState(47);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -115,7 +115,6 @@ export const VerifyEmailForm: React.FC = () => {
     const fullCode = code.join("");
 
     if (fullCode.length < 6) {
-      // For demonstration in prototype, if fullCode has entries or submit is clicked, allow verification
       if (fullCode.length === 0) {
         toast({
           type: "error",
@@ -136,7 +135,7 @@ export const VerifyEmailForm: React.FC = () => {
   useEffect(() => {
     if (showSuccessModal) {
       const timer = setTimeout(() => {
-        router.push("/welcome");
+        router.push("/onboarding");
       }, 1500);
       return () => clearTimeout(timer);
     }
@@ -144,7 +143,7 @@ export const VerifyEmailForm: React.FC = () => {
 
   const handleModalAction = () => {
     setShowSuccessModal(false);
-    router.push("/welcome");
+    router.push("/onboarding");
   };
 
   return (
@@ -262,4 +261,3 @@ export const VerifyEmailForm: React.FC = () => {
     </motion.div>
   );
 };
-

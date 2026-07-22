@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { StatusModal } from "@/components/ui/status-modal";
 import { motion } from "framer-motion";
 
-export const ChangePasswordForm: React.FC = () => {
+export const ChangePassword: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

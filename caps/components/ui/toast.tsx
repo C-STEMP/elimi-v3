@@ -92,7 +92,7 @@ interface ToastContainerProps {
 
 const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, dismiss }) => {
   return (
-    <div className="fixed top-6 right-6 z-50 flex flex-col gap-4 w-full max-w-90 pointer-events-none select-none">
+    <div suppressHydrationWarning className="fixed top-6 right-6 z-50 flex flex-col gap-4 w-full max-w-90 pointer-events-none select-none">
       {toasts.map((t) => (
         <ToastItem key={t.id} toast={t} onDismiss={() => dismiss(t.id)} />
       ))}
@@ -135,6 +135,7 @@ const ToastItem: React.FC<{ toast: Toast; onDismiss: () => void }> = ({ toast, o
 
   return (
     <div
+      suppressHydrationWarning
       onClick={onDismiss}
       className="relative w-full bg-white rounded-2xl overflow-hidden p-4 pb-5 flex items-start gap-3 pointer-events-auto cursor-pointer transition-all duration-300 animate-slide-in"
       style={{

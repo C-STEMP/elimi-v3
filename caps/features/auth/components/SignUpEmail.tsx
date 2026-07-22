@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
-export const SignUpEmailForm: React.FC = () => {
+export const SignUpEmail: React.FC = () => {
   const [email, setEmail] = useState("chidi.umeh@email.com");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

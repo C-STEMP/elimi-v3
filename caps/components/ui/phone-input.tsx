@@ -27,9 +27,9 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           {label}
         </label>
       )}
-      <div className="flex items-center gap-2 w-full">
+      <div className="flex items-center gap-1 w-full">
         {/* Country Select */}
-        <div className="relative shrink-0 w-24 xl:w-28">
+        <div className="relative shrink-0 w-21">
           <select
             value={countryCode}
             onChange={(e) => onCountryCodeChange?.(e.target.value)}

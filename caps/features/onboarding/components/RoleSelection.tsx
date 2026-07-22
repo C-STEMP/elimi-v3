@@ -38,12 +38,12 @@ const ROLES: RoleOption[] = [
   },
 ];
 
-export interface RoleSelectionViewProps {
+export interface RoleSelectionProps {
   onSelectRole?: (roleId: string) => void;
   onBack?: () => void;
 }
 
-export const RoleSelectionView: React.FC<RoleSelectionViewProps> = ({
+export const RoleSelection: React.FC<RoleSelectionProps> = ({
   onSelectRole,
   onBack,
 }) => {
@@ -70,7 +70,7 @@ export const RoleSelectionView: React.FC<RoleSelectionViewProps> = ({
     } else {
       if (roleId === "candidate") {
         setTimeout(() => {
-          router.push("/assessment-type");
+          router.push("/onboarding/assessment-type");
         }, 200);
       } else {
         toast({
@@ -87,7 +87,7 @@ export const RoleSelectionView: React.FC<RoleSelectionViewProps> = ({
     if (onBack) {
       onBack();
     } else {
-      router.push("/welcome");
+      router.push("/onboarding/welcome");
     }
   };
 

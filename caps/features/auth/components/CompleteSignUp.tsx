@@ -3,29 +3,46 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/toast";
 import { eyeClosedIcon } from "@/assets";
 import { FiEye } from "react-icons/fi";
 import Image from "next/image";
-import { FcGoogle } from "react-icons/fc";
-import { useToast } from "@/components/ui/toast";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { StatusModal } from "@/components/ui/status-modal";
 import { motion } from "framer-motion";
 
-export const SignInForm: React.FC = () => {
-  const [email, setEmail] = useState("");
+export const CompleteSignUp: React.FC = () => {
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  
   const { toast } = useToast();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") || "";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email.trim() || !password.trim()) {
+    if (!fullName.trim() || !password.trim() || !confirmPassword.trim()) {
       toast({
         type: "error",
-        title: "Incorrect Details",
-        description: "Please fill in both email and password.",
+        title: "Input Required",
+        description: "Please fill in all the required fields.",
+      });
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast({
+        type: "error",
+        title: "Mismatch Passwords",
+        description: "Passwords do not match. Please verify.",
       });
       return;
     }
@@ -33,20 +50,7 @@ export const SignInForm: React.FC = () => {
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-
-      if (email === "chidi.umeh@email.com" && password === "password123") {
-        toast({
-          type: "success",
-          title: "Welcome Back",
-          description: "You have successfully signed in",
-        });
-      } else {
-        toast({
-          type: "error",
-          title: "Incorrect Details",
-          description: "Invalid email or password",
-        });
-      } 
+      setShowSuccessModal(true);
     }, 1200);
   };
 
@@ -55,25 +59,25 @@ export const SignInForm: React.FC = () => {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full max-w-110 mx-auto flex flex-col justify-center select-text"
+      className="w-full flex flex-col justify-center select-text"
     >
-      <div className="mb-8 text-left w-full">
+      <div className="mb-8 text-left">
         <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
-          Sign in to ELIMI
+          Create Account
         </h1>
         <p className="text-neutral-secondary text-[14px] xl:text-[15px] leading-relaxed mt-2 max-w-sm font-normal">
-          Access Elimi learning, your NSQ assessments, and WorkMaster profile.
+          Complete your profile registration for <span className="font-semibold">{email}</span>.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
         <Input
-          label="Email Address"
-          type="email"
-          name="email"
-          placeholder="yourname@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          label="Full Name"
+          type="text"
+          name="fullName"
+          placeholder="e.g. Tunde Balogun"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
           required
           disabled={isSubmitting}
         />
@@ -89,18 +93,18 @@ export const SignInForm: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="focus:outline-none flex items-center justify-center p-1 cursor-pointer"
+              className="focus:outline-none flex items-center justify-center p-1"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
-                <FiEye className="w-5 h-5 text-text-dark/70" />
+                <FiEye className="w-5 h-5" />
               ) : (
                 <Image
                   src={eyeClosedIcon}
                   alt="Hide password"
                   width={20}
                   height={20}
-                  className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity"
+                  className="w-5 h-5"
                 />
               )}
             </button>
@@ -109,27 +113,43 @@ export const SignInForm: React.FC = () => {
           disabled={isSubmitting}
         />
 
-        <div className="flex justify-between items-center w-full text-sm -mt-1 select-none">
-          <Link
-            href="/signup"
-            className="text-primary-solid font-bold text-xs xl:text-sm hover:text-primary-hover transition-colors"
-          >
-            Enter OTP
-          </Link>
-          <Link
-            href="/forgot-password"
-            className="text-primary-solid font-bold text-xs xl:text-sm hover:text-primary-hover transition-colors"
-          >
-            Forgot password?
-          </Link>
-        </div>
+        <Input
+          label="Confirm Password"
+          type={showConfirmPassword ? "text" : "password"}
+          name="confirmPassword"
+          placeholder="••••••••••••"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          suffix={
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="focus:outline-none flex items-center justify-center p-1"
+              aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+            >
+              {showConfirmPassword ? (
+                <FiEye className="w-5 h-5" />
+              ) : (
+                <Image
+                  src={eyeClosedIcon}
+                  alt="Hide password"
+                  width={20}
+                  height={20}
+                  className="w-5 h-5"
+                />
+              )}
+            </button>
+          }
+          required
+          disabled={isSubmitting}
+        />
 
         <div className="w-full mt-2">
           <Button
             type="submit"
             variant="secondary"
             size="normal"
-            className="w-full h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm cursor-pointer"
+            className="w-full max-w-110 h-12.5 text-white! font-bold text-base bg-secondary hover:bg-secondary-hover focus:ring-secondary/30 transition-all shadow-sm"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -153,45 +173,35 @@ export const SignInForm: React.FC = () => {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                Signing In...
+                Creating...
               </span>
             ) : (
-              "Sign In"
+              "Create Account"
             )}
           </Button>
         </div>
-        <div className="w-full flex items-center gap-4 my-3 select-none">
-          <div className="flex-1 h-[1.5px] bg-border-gray" />
-          <span className="text-neutral-secondary text-xs xl:text-sm font-medium whitespace-nowrap">
-            or continue with
-          </span>
-          <div className="flex-1 h-[1.5px] bg-border-gray" />
-        </div>
 
-        <Button
-          type="button"
-          variant="outline"
-          size="normal"
-          onClick={() => alert("Google SSO Integration Clicked")}
-          disabled={isSubmitting}
-          className="w-full h-12.5 text-text-dark font-medium text-sm xl:text-base cursor-pointer"
-        >
-          <FcGoogle className="w-5 h-5 mr-3 shrink-0" />
-          Continue with Google
-        </Button>
-
-        <div className="w-full text-center mt-3 text-sm select-none">
+        <div className="w-full max-w-110 text-center mt-3 text-sm select-none">
           <span className="text-neutral-secondary font-normal">
-            Don't have an account?
+            Already have an account?
           </span>
           <Link
-            href="/signup"
+            href="/signin"
             className="text-primary-solid font-bold ml-1 hover:text-primary-hover transition-colors"
           >
-            Sign Up
+            Sign In
           </Link>
         </div>
       </form>
+
+      <StatusModal
+        isOpen={showSuccessModal}
+        type="success"
+        title="Congratulations"
+        description="Your ELIMI account has been created successfully"
+        actionLabel="Sign In"
+        onAction={() => router.push("/signin")}
+      />
     </motion.div>
   );
 };

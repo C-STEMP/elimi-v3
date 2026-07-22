@@ -2,7 +2,7 @@
 
 import React from "react";
 import { RoleCard } from "@/components/ui/role-card";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { setAssessmentType } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { FiArrowLeft } from "react-icons/fi";
@@ -27,19 +27,18 @@ const ASSESSMENT_OPTIONS: AssessmentOption[] = [
   },
 ];
 
-export interface AssessmentTypeViewProps {
+export interface AssessmentTypeProps {
   onSelectType?: (typeId: string) => void;
   onBack?: () => void;
 }
 
-export const AssessmentTypeView: React.FC<AssessmentTypeViewProps> = ({
+export const AssessmentType: React.FC<AssessmentTypeProps> = ({
   onSelectType,
   onBack,
 }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  // Local state for assessment type selection initialized to null (no card active by default)
   const [selectedType, setSelectedType] = React.useState<string | null>(null);
 
   const handleSelectType = (id: string) => {
@@ -50,7 +49,7 @@ export const AssessmentTypeView: React.FC<AssessmentTypeViewProps> = ({
       onSelectType(id);
     } else {
       setTimeout(() => {
-        router.push("/complete-profile");
+        router.push("/onboarding/personal-info");
       }, 200);
     }
   };
@@ -59,7 +58,7 @@ export const AssessmentTypeView: React.FC<AssessmentTypeViewProps> = ({
     if (onBack) {
       onBack();
     } else {
-      router.push("/role-selection");
+      router.push("/onboarding/role-selection");
     }
   };
 
@@ -70,16 +69,14 @@ export const AssessmentTypeView: React.FC<AssessmentTypeViewProps> = ({
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="w-full flex flex-col justify-center select-text max-w-110"
     >
-      {/* Joined Continuous Status Bar - Step 2 of 3 (2/3 filled) */}
-      <div className="w-full max-w-[439px] flex justify-start mb-6">
-        <div className="w-[186px] h-[10px] bg-primary-solid/15 rounded-[10px] overflow-hidden">
+      <div className="w-full max-w-109.75 flex justify-start mb-6">
+        <div className="w-46.5 h-2.5 bg-primary-solid/15 rounded-[10px] overflow-hidden">
           <div className="w-2/3 h-full bg-primary-solid rounded-[10px] transition-all duration-300" />
         </div>
       </div>
 
-      {/* Heading & Subtitle */}
       <div className="mb-6 text-left">
-        <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-[#241014]">
+        <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
           Select Assessment Type
         </h1>
         <p className="text-neutral-secondary text-sm leading-relaxed mt-1 font-normal">
@@ -87,7 +84,6 @@ export const AssessmentTypeView: React.FC<AssessmentTypeViewProps> = ({
         </p>
       </div>
 
-      {/* Option Cards: Yellow then Red */}
       <div className="w-full flex flex-col gap-3 xl:gap-6">
         {ASSESSMENT_OPTIONS.map((option, idx) => (
           <RoleCard
@@ -102,7 +98,6 @@ export const AssessmentTypeView: React.FC<AssessmentTypeViewProps> = ({
         ))}
       </div>
 
-      {/* Back Button */}
       <div className="mt-8 flex items-center">
         <button
           type="button"

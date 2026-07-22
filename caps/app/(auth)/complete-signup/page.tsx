@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { PersonalInfoForm } from "@/features/auth/components/PersonalInfoForm";
+import { CompleteSignUp } from "@/features/auth/components/CompleteSignUp";
 
 export default function CompleteSignUpPage() {
   return (
@@ -8,7 +8,7 @@ export default function CompleteSignUpPage() {
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-solid" />
       </div>
     }>
-      <PersonalInfoForm />
+      <CompleteSignUp />
     </Suspense>
   );
 }

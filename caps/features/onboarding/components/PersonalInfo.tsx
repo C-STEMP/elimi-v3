@@ -1,18 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
+import { DatePicker } from "@/components/ui/date-picker";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { PassportUpload } from "@/components/ui/passport-upload";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
-import { FiCalendar, FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { StatusModal } from "@/components/ui/status-modal";
+import { useAppDispatch } from "@/store/hooks";
+import { setSidebarVariant } from "@/store/slices/authSlice";
 
-interface PersonalInfoFormProps {
+export interface PersonalInfoProps {
   onBack?: () => void;
   onSuccess?: () => void;
 }
@@ -33,7 +36,7 @@ const initialForm = {
   impairment: "",
 };
 
-export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
+export const PersonalInfo: React.FC<PersonalInfoProps> = ({
   onBack,
   onSuccess,
 }) => {
@@ -41,8 +44,13 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+  const dispatch = useAppDispatch();
   const { toast } = useToast();
   const router = useRouter();
+
+  useEffect(() => {
+    dispatch(setSidebarVariant("default"));
+  }, [dispatch]);
 
   const update = (field: keyof typeof initialForm, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -71,9 +79,9 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       if (onSuccess) {
         onSuccess();
       } else {
-        setShowSuccessModal(true);
+        router.push("/onboarding/success");
       }
-    }, 1000);
+    }, 600);
   };
 
   return (
@@ -84,19 +92,24 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       className="w-full flex flex-col gap-6 select-text max-w-2xl mx-auto"
     >
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
+        {/* Joined Continuous Status Bar - Step 3 of 3 (Complete Profile) */}
+
         <div className="flex items-start justify-between gap-4">
-          <div className="flex flex-col place-self-end gap-1 pt-1">
-            <div className="w-full max-w-109.75 flex justify-start mb-1">
+          <div className="flex flex-col place-self-end">
+            <div className="w-full max-w-109.75 flex justify-start mb-6">
               <div className="w-46.5 h-2.5 bg-primary-solid/15 rounded-[10px] overflow-hidden">
-                <div className="w-full h-full bg-primary-solid rounded-[10px] transition-all duration-300" />
+                <div className="w-5/6 h-full bg-primary-solid rounded-[10px] transition-all duration-300" />
               </div>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-text-dark">
-              Personal Information
-            </h1>
-            <p className="text-neutral-secondary text-xs sm:text-sm font-normal">
-              Collect only essential information.
-            </p>
+
+            <div className="flex flex-col gap-1 pt-1">
+              <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-neutral-primary">
+                Personal Information
+              </h1>
+              <p className="text-neutral-secondary text-xs sm:text-sm font-normal mt-1">
+                Provide your details to complete your profile
+              </p>
+            </div>
           </div>
 
           <PassportUpload />
@@ -138,18 +151,16 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
             onChange={(e) => update("middleName", e.target.value)}
           />
 
-          <Input
+          <DatePicker
             label={
               <span>
                 Date Of Birth
                 <span className="text-primary-solid ml-0.5">*</span>
               </span>
             }
-            type="text"
             placeholder="dd/mm/yyyy"
             value={form.dob}
-            onChange={(e) => update("dob", e.target.value)}
-            suffix={<FiCalendar className="w-4 h-4 text-text-dark/60" />}
+            onChange={(val) => update("dob", val)}
             required
           />
 
@@ -334,7 +345,7 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
           <Button
             type="submit"
             variant="secondary"
-            size="normal"
+            size="small"
             disabled={isSubmitting}
             className="px-8 h-11 bg-secondary hover:bg-secondary-hover text-white font-semibold text-sm rounded-lg flex items-center gap-2 shadow-sm cursor-pointer"
           >
@@ -353,10 +364,10 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       <StatusModal
         isOpen={showSuccessModal}
         type="success"
-        title="Registration Complete"
+        title="Personal Information Saved"
         description="Your profile details have been saved successfully!"
-        actionLabel="Go to Dashboard"
-        onAction={() => router.push("/signin")}
+        actionLabel="Continue"
+        onAction={() => setShowSuccessModal(false)}
       />
     </motion.div>
   );

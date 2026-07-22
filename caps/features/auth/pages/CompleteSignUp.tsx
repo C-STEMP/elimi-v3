@@ -11,6 +11,11 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { StatusModal } from "@/components/ui/status-modal";
 import { motion } from "framer-motion";
+import {
+  validateRequired,
+  validatePassword,
+  validateConfirmPassword,
+} from "@/lib/validation";
 
 export const CompleteSignUp: React.FC = () => {
   const [fullName, setFullName] = useState("");
@@ -20,6 +25,11 @@ export const CompleteSignUp: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errors, setErrors] = useState<{
+    fullName?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
   
   const { toast } = useToast();
   const router = useRouter();
@@ -29,24 +39,25 @@ export const CompleteSignUp: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!fullName.trim() || !password.trim() || !confirmPassword.trim()) {
+    const nameErr = validateRequired(fullName, "Full name");
+    const passErr = validatePassword(password);
+    const confirmErr = validateConfirmPassword(password, confirmPassword);
+
+    if (nameErr || passErr || confirmErr) {
+      setErrors({
+        fullName: nameErr || undefined,
+        password: passErr || undefined,
+        confirmPassword: confirmErr || undefined,
+      });
       toast({
         type: "error",
-        title: "Input Required",
-        description: "Please fill in all the required fields.",
+        title: "Validation Error",
+        description: "Please check the highlighted fields below.",
       });
       return;
     }
 
-    if (password !== confirmPassword) {
-      toast({
-        type: "error",
-        title: "Mismatch Passwords",
-        description: "Passwords do not match. Please verify.",
-      });
-      return;
-    }
-
+    setErrors({});
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -77,8 +88,11 @@ export const CompleteSignUp: React.FC = () => {
           name="fullName"
           placeholder="e.g. Tunde Balogun"
           value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          required
+          error={errors.fullName}
+          onChange={(e) => {
+            setFullName(e.target.value);
+            if (errors.fullName) setErrors((prev) => ({ ...prev, fullName: undefined }));
+          }}
           disabled={isSubmitting}
         />
 
@@ -88,7 +102,11 @@ export const CompleteSignUp: React.FC = () => {
           name="password"
           placeholder="••••••••••••"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          error={errors.password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
+          }}
           suffix={
             <button
               type="button"
@@ -109,7 +127,6 @@ export const CompleteSignUp: React.FC = () => {
               )}
             </button>
           }
-          required
           disabled={isSubmitting}
         />
 
@@ -119,7 +136,12 @@ export const CompleteSignUp: React.FC = () => {
           name="confirmPassword"
           placeholder="••••••••••••"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          error={errors.confirmPassword}
+          onChange={(e) => {
+            setConfirmPassword(e.target.value);
+            if (errors.confirmPassword)
+              setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+          }}
           suffix={
             <button
               type="button"
@@ -140,7 +162,6 @@ export const CompleteSignUp: React.FC = () => {
               )}
             </button>
           }
-          required
           disabled={isSubmitting}
         />
 

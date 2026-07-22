@@ -9,6 +9,11 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { StatusModal } from "@/components/ui/status-modal";
 
+import {
+  startApplicationSchema,
+  extractZodErrors,
+} from "@/lib/validation";
+
 export interface StartApplicationProps {
   onBack?: () => void;
   onContinue?: () => void;
@@ -42,6 +47,10 @@ export const StartApplication: React.FC<StartApplicationProps> = ({
   const [trade, setTrade] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errors, setErrors] = useState<{
+    assessmentCenter?: string;
+    trade?: string;
+  }>({});
 
   const { toast } = useToast();
   const router = useRouter();
@@ -49,7 +58,13 @@ export const StartApplication: React.FC<StartApplicationProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!assessmentCenter || !trade) {
+    const result = startApplicationSchema.safeParse({
+      assessmentCenter,
+      trade,
+    });
+
+    if (!result.success) {
+      setErrors(extractZodErrors(result));
       toast({
         type: "error",
         title: "Selection Required",
@@ -58,6 +73,7 @@ export const StartApplication: React.FC<StartApplicationProps> = ({
       return;
     }
 
+    setErrors({});
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -100,8 +116,12 @@ export const StartApplication: React.FC<StartApplicationProps> = ({
           placeholder="Select"
           options={ASSESSMENT_CENTERS}
           value={assessmentCenter}
-          onChange={(e) => setAssessmentCenter(e.target.value)}
-          required
+          error={errors.assessmentCenter}
+          onChange={(e) => {
+            setAssessmentCenter(e.target.value);
+            if (errors.assessmentCenter)
+              setErrors((prev) => ({ ...prev, assessmentCenter: undefined }));
+          }}
         />
 
         <Select
@@ -113,8 +133,11 @@ export const StartApplication: React.FC<StartApplicationProps> = ({
           placeholder="Select"
           options={TRADES}
           value={trade}
-          onChange={(e) => setTrade(e.target.value)}
-          required
+          error={errors.trade}
+          onChange={(e) => {
+            setTrade(e.target.value);
+            if (errors.trade) setErrors((prev) => ({ ...prev, trade: undefined }));
+          }}
         />
 
         <div className="bg-[#D9D9D980] w-full h-px my-2"></div>

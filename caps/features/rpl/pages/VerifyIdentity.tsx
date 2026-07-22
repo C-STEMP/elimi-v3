@@ -15,6 +15,7 @@ import {
 } from "@/assets";
 import { useAppDispatch } from "@/store/hooks";
 import { setSidebarVariant, setRplStep } from "@/store/slices/authSlice";
+import { validateNIN } from "@/lib/validation";
 
 export interface RPLVerifyIdentityProps {
   onBack?: () => void;
@@ -29,6 +30,7 @@ export const RPLVerifyIdentity: React.FC<RPLVerifyIdentityProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const [nin, setNin] = useState("");
+  const [ninError, setNinError] = useState<string | undefined>(undefined);
   const [isVerified, setIsVerified] = useState(false);
   const [modalState, setModalState] = useState<
     "none" | "verifying" | "success" | "error"
@@ -45,15 +47,18 @@ export const RPLVerifyIdentity: React.FC<RPLVerifyIdentityProps> = ({
   const handleStartVerification = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
-    if (!nin.trim()) {
+    const error = validateNIN(nin);
+    if (error) {
+      setNinError(error);
       toast({
         type: "error",
-        title: "NIN Required",
-        description: "Please enter your National Identification Number (NIN).",
+        title: "NIN Validation Error",
+        description: error,
       });
       return;
     }
 
+    setNinError(undefined);
     setModalState("verifying");
 
     setTimeout(() => {
@@ -137,25 +142,38 @@ export const RPLVerifyIdentity: React.FC<RPLVerifyIdentityProps> = ({
             <FiCheckCircle className="w-5 h-5 text-[#2E7D32]" />
           </div>
         ) : (
-          <form
-            onSubmit={handleStartVerification}
-            className="flex items-center gap-2"
-          >
-            <input
-              type="text"
-              placeholder="000000000"
-              value={nin}
-              onChange={(e) => setNin(e.target.value)}
-              className="flex-1 p-3.5 bg-input-bg text-text-dark font-normal text-sm border border-transparent rounded-radius-200 outline-none focus:border-primary-solid/40 focus:ring-2 focus:ring-primary-solid/10 placeholder:text-gray-400 transition-all"
-            />
-            <button
-              type="submit"
-              className="h-12 px-5 bg-secondary hover:bg-secondary-hover text-white rounded-radius-200 flex items-center justify-center cursor-pointer transition-all shadow-sm shrink-0"
-              title="Verify NIN"
+          <div className="flex flex-col gap-1.5 w-full">
+            <form
+              onSubmit={handleStartVerification}
+              className="flex items-center gap-2"
             >
-              <FiArrowRight className="w-5 h-5" />
-            </button>
-          </form>
+              <input
+                type="text"
+                placeholder="00000000000"
+                maxLength={11}
+                value={nin}
+                onChange={(e) => {
+                  setNin(e.target.value);
+                  if (ninError) setNinError(undefined);
+                }}
+                className={`flex-1 p-3.5 bg-input-bg text-text-dark font-normal text-sm border ${
+                  ninError ? "border-primary-solid ring-2 ring-border-secondary" : "border-transparent"
+                } rounded-radius-200 outline-none focus:border-primary-solid/40 focus:ring-2 focus:ring-primary-solid/10 placeholder:text-gray-400 transition-all`}
+              />
+              <button
+                type="submit"
+                className="h-12 px-5 bg-secondary hover:bg-secondary-hover text-white rounded-radius-200 flex items-center justify-center cursor-pointer transition-all shadow-sm shrink-0"
+                title="Verify NIN"
+              >
+                <FiArrowRight className="w-5 h-5" />
+              </button>
+            </form>
+            {ninError && (
+              <span className="text-primary-solid text-xs font-semibold leading-[1.4] transition-all duration-200 animate-fadeIn">
+                {ninError}
+              </span>
+            )}
+          </div>
         )}
       </div>
 

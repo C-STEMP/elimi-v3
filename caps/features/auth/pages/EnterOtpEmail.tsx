@@ -7,9 +7,11 @@ import { useToast } from "@/components/ui/toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { validateEmail } from "@/lib/validation";
 
 export const EnterOtpEmail: React.FC = () => {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState<string | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { toast } = useToast();
@@ -17,15 +19,18 @@ export const EnterOtpEmail: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) {
+    const emailErr = validateEmail(email);
+    if (emailErr) {
+      setError(emailErr);
       toast({
         type: "error",
         title: "Email Required",
-        description: "Please enter your email address.",
+        description: emailErr,
       });
       return;
     }
 
+    setError(undefined);
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -63,8 +68,11 @@ export const EnterOtpEmail: React.FC = () => {
           name="email"
           placeholder="yourname@email.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          error={error}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (error) setError(undefined);
+          }}
           disabled={isSubmitting}
         />
 

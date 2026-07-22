@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { StatusModal } from "@/components/ui/status-modal";
 import { useAppDispatch } from "@/store/hooks";
 import { setSidebarVariant } from "@/store/slices/authSlice";
+import { validateEmail } from "@/lib/validation";
 
 export const SignIn: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,11 +24,17 @@ export const SignIn: React.FC = () => {
     dispatch(setSidebarVariant("default"));
   }, [dispatch]);
 
-  // Sign In form states
+  // Form states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    otpEmail?: string;
+    otpCode?: string;
+  }>({});
 
   // OTP flow states
   const [otpEmail, setOtpEmail] = useState("chidi.umeh@email.com");
@@ -70,15 +77,23 @@ export const SignIn: React.FC = () => {
 
   const handleSignInSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim() || !password.trim()) {
+    const emailErr = validateEmail(email);
+    const passErr = !password.trim() ? "Password is required" : null;
+
+    if (emailErr || passErr) {
+      setErrors({
+        email: emailErr || undefined,
+        password: passErr || undefined,
+      });
       toast({
         type: "error",
-        title: "Incorrect Details",
-        description: "Please fill in both email and password.",
+        title: "Input Required",
+        description: "Please check the highlighted fields.",
       });
       return;
     }
 
+    setErrors({});
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -90,6 +105,10 @@ export const SignIn: React.FC = () => {
         });
         router.push("/onboarding");
       } else {
+        setErrors({
+          email: "Invalid email or password",
+          password: "Invalid email or password",
+        });
         toast({
           type: "error",
           title: "Incorrect Details",
@@ -101,15 +120,18 @@ export const SignIn: React.FC = () => {
 
   const handleSendCodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!otpEmail.trim()) {
+    const emailErr = validateEmail(otpEmail);
+    if (emailErr) {
+      setErrors({ otpEmail: emailErr });
       toast({
         type: "error",
         title: "Email Required",
-        description: "Please enter your email address.",
+        description: emailErr,
       });
       return;
     }
 
+    setErrors({});
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -238,8 +260,11 @@ export const SignIn: React.FC = () => {
                 name="email"
                 placeholder="yourname@email.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                error={errors.email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+                }}
                 disabled={isSubmitting}
               />
 
@@ -249,7 +274,11 @@ export const SignIn: React.FC = () => {
                 name="password"
                 placeholder="••••••••••••"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                error={errors.password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
+                }}
                 suffix={
                   <button
                     type="button"
@@ -270,7 +299,6 @@ export const SignIn: React.FC = () => {
                     )}
                   </button>
                 }
-                required
                 disabled={isSubmitting}
               />
 
@@ -387,8 +415,11 @@ export const SignIn: React.FC = () => {
                 name="otpEmail"
                 placeholder="chidi.umeh@email.com"
                 value={otpEmail}
-                onChange={(e) => setOtpEmail(e.target.value)}
-                required
+                error={errors.otpEmail}
+                onChange={(e) => {
+                  setOtpEmail(e.target.value);
+                  if (errors.otpEmail) setErrors((prev) => ({ ...prev, otpEmail: undefined }));
+                }}
                 disabled={isSubmitting}
               />
 

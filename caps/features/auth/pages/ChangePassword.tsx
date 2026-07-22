@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { StatusModal } from "@/components/ui/status-modal";
 import { motion } from "framer-motion";
+import { validatePassword, validateConfirmPassword } from "@/lib/validation";
 
 export const ChangePassword: React.FC = () => {
   const [password, setPassword] = useState("");
@@ -19,6 +20,10 @@ export const ChangePassword: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errors, setErrors] = useState<{
+    password?: string;
+    confirmPassword?: string;
+  }>({});
   
   const { toast } = useToast();
   const router = useRouter();
@@ -26,24 +31,23 @@ export const ChangePassword: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!password.trim() || !confirmPassword.trim()) {
+    const passErr = validatePassword(password);
+    const confirmErr = validateConfirmPassword(password, confirmPassword);
+
+    if (passErr || confirmErr) {
+      setErrors({
+        password: passErr || undefined,
+        confirmPassword: confirmErr || undefined,
+      });
       toast({
         type: "error",
-        title: "Input Required",
-        description: "Please fill in both password fields.",
+        title: "Validation Error",
+        description: "Please check the highlighted password fields.",
       });
       return;
     }
 
-    if (password !== confirmPassword) {
-      toast({
-        type: "error",
-        title: "Mismatch Passwords",
-        description: "Passwords do not match. Please verify.",
-      });
-      return;
-    }
-
+    setErrors({});
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -74,7 +78,11 @@ export const ChangePassword: React.FC = () => {
           name="password"
           placeholder="••••••••••••"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          error={errors.password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
+          }}
           suffix={
             <button
               type="button"
@@ -95,7 +103,6 @@ export const ChangePassword: React.FC = () => {
               )}
             </button>
           }
-          required
           disabled={isSubmitting}
         />
 
@@ -105,7 +112,12 @@ export const ChangePassword: React.FC = () => {
           name="confirmPassword"
           placeholder="••••••••••••"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          error={errors.confirmPassword}
+          onChange={(e) => {
+            setConfirmPassword(e.target.value);
+            if (errors.confirmPassword)
+              setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+          }}
           suffix={
             <button
               type="button"
@@ -126,7 +138,6 @@ export const ChangePassword: React.FC = () => {
               )}
             </button>
           }
-          required
           disabled={isSubmitting}
         />
 

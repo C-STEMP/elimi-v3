@@ -2,19 +2,19 @@ import Image from "next/image";
 import { landingImg1 } from "@/assets";
 
 const STATS = [
-  { value: "14,800+", label: "Learners Enrolled" },
-  { value: "280+", label: "Training Centers" },
-  { value: "45+", label: "Accredited Trades" },
-  { value: "100%", label: "Verifiable Credentials" },
+  { value: "14,800+", label: "Accredited Centers" },
+  { value: "280+", label: "Certification Rate" },
+  { value: "45+", label: "Trade Curriculums" },
+  { value: "100%", label: "Credential Safety" },
 ];
 
 export function InfrastructureSection() {
   return (
     <section className="bg-white py-16 lg:py-24" id="about">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+      <div className="mx-auto sm:px-6 lg:px-8 xl:px-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
           {/* Left Column Image */}
-          <div className="relative h-[380px] sm:h-[480px] lg:col-span-5 lg:h-[520px] overflow-hidden rounded-2xl shadow-xl">
+          <div data-aos="fade-right" className="relative h-95 sm:h-120 lg:col-span-5 lg:h-130 overflow-hidden rounded-2xl shadow-xl">
             <Image
               src={landingImg1}
               alt="Craftsman artisan working"
@@ -25,26 +25,34 @@ export function InfrastructureSection() {
           </div>
 
           {/* Right Column Content */}
-          <div className="lg:col-span-7 lg:pl-6">
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#1e1e1e] sm:text-4xl">
-              One <span className="text-[#f9a825]">Unified</span> Infrastructure
+          <div data-aos="fade-left" className="lg:col-span-7">
+            <h2 className="text-2xl font-extrabold tracking-tight text-dark lg:text-[44px]">
+              One <span className="text-secondary">Unified</span> Infrastructure
             </h2>
 
-            <p className="mt-4 text-base leading-relaxed text-gray-600 sm:text-lg">
-              An end-to-end ecosystem that connects students, trainers, assessment centers, and employers seamlessly. We streamline everything from initial enrollment to final job matching, creating a transparent, verifiable path for technical career advancement.
+            <p className="mt-4 text-base leading-relaxed text-black sm:text-lg lg:pr-4">
+              ELIMI is Nigeria's unified skilled-trades ecosystem that
+              consolidates training, regulatory qualification, and placement
+              into a single platform. We believe the skilled-trades sector needs
+              absolute trust. By integrating online standard training with
+              rigorous physical evaluations under accredited Awarding Bodies, we
+              guarantee that an ELIMI credential represents real, fraud-free
+              competent ability.
             </p>
 
             {/* 2x2 Metric Cards Grid */}
-            <div className="mt-8 grid grid-cols-2 gap-4">
+            <div className="mt-4 grid grid-cols-2 gap-4">
               {STATS.map((stat, idx) => (
                 <div
                   key={idx}
-                  className="rounded-xl border border-gray-100 bg-slate-50/80 p-5 text-center transition-all hover:bg-slate-100/80"
+                  data-aos="zoom-in"
+                  data-aos-delay={(idx + 1) * 100}
+                  className="rounded-[10px] bg-input-bg p-5 text-center transition-all hover:bg-slate-100/80"
                 >
-                  <span className="block text-2xl font-black text-[#1e1e1e] sm:text-3xl">
+                  <span className="block text-2xl font-semibold text-black sm:text-3xl lg:text-[44px]">
                     {stat.value}
                   </span>
-                  <span className="mt-1 block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <span className="mt-1 block text-xs lg:text-base font-semibold text-black tracking-wider">
                     {stat.label}
                   </span>
                 </div>

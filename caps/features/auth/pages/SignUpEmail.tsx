@@ -11,6 +11,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import {
+  validateEmail,
+  validatePassword,
+  validateConfirmPassword,
+} from "@/lib/validation";
 
 export const SignUpEmail: React.FC = () => {
   const [email, setEmail] = useState("chidi.umeh@email.com");
@@ -19,6 +24,11 @@ export const SignUpEmail: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
 
   const { toast } = useToast();
   const router = useRouter();
@@ -26,24 +36,25 @@ export const SignUpEmail: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+    const emailErr = validateEmail(email);
+    const passErr = validatePassword(password);
+    const confirmErr = validateConfirmPassword(password, confirmPassword);
+
+    if (emailErr || passErr || confirmErr) {
+      setErrors({
+        email: emailErr || undefined,
+        password: passErr || undefined,
+        confirmPassword: confirmErr || undefined,
+      });
       toast({
         type: "error",
-        title: "Input Required",
-        description: "Please fill in all required fields.",
+        title: "Validation Error",
+        description: "Please check the highlighted fields below.",
       });
       return;
     }
 
-    if (password !== confirmPassword) {
-      toast({
-        type: "error",
-        title: "Password Mismatch",
-        description: "Password and Confirm Password do not match.",
-      });
-      return;
-    }
-
+    setErrors({});
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -80,8 +91,11 @@ export const SignUpEmail: React.FC = () => {
           name="email"
           placeholder="chidi.umeh@email.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          error={errors.email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+          }}
           disabled={isSubmitting}
         />
 
@@ -95,7 +109,11 @@ export const SignUpEmail: React.FC = () => {
           name="password"
           placeholder="••••••••••"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          error={errors.password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
+          }}
           suffix={
             <button
               type="button"
@@ -116,7 +134,6 @@ export const SignUpEmail: React.FC = () => {
               )}
             </button>
           }
-          required
           disabled={isSubmitting}
         />
 
@@ -132,7 +149,12 @@ export const SignUpEmail: React.FC = () => {
             name="confirmPassword"
             placeholder="••••••••••"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            error={errors.confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              if (errors.confirmPassword)
+                setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+            }}
             suffix={
               <button
                 type="button"
@@ -155,7 +177,6 @@ export const SignUpEmail: React.FC = () => {
                 )}
               </button>
             }
-            required
             disabled={isSubmitting}
           />
           <p className="text-xs xl:text-xs text-text-dark italic leading-relaxed font-normal mt-1">

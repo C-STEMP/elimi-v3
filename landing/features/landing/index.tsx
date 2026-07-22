@@ -7,21 +7,24 @@ import { ImpactSection } from "./components/ImpactSection";
 import { FaqSection } from "./components/FaqSection";
 import { ContactSection } from "./components/ContactSection";
 import { Footer } from "./components/Footer";
+import { AosProvider } from "./components/AosProvider";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Navbar />
-      <main className="flex-1">
-        <HeroSection />
-        <PipelineSection />
-        <InfrastructureSection />
-        <PillarsSection />
-        <ImpactSection />
-        <FaqSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </div>
+    <AosProvider>
+      <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
+        <Navbar />
+        <main className="flex-1">
+          <HeroSection />
+          <PipelineSection />
+          <InfrastructureSection />
+          <PillarsSection />
+          <ImpactSection />
+          <FaqSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </div>
+    </AosProvider>
   );
 }

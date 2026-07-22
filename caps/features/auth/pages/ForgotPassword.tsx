@@ -7,9 +7,11 @@ import { useToast } from "@/components/ui/toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { validateEmail } from "@/lib/validation";
 
 export const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState<string | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -17,15 +19,18 @@ export const ForgotPassword: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email.trim()) {
+    const emailErr = validateEmail(email);
+    if (emailErr) {
+      setError(emailErr);
       toast({
         type: "error",
         title: "Input Required",
-        description: "Please enter your email address.",
+        description: emailErr,
       });
       return;
     }
 
+    setError(undefined);
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -40,6 +45,7 @@ export const ForgotPassword: React.FC = () => {
           router.push(`/verify?email=${encodeURIComponent(email.trim())}`);
         }, 800);
       } else {
+        setError("No account found with this email address");
         toast({
           type: "error",
           title: "Account Not Found",
@@ -72,8 +78,11 @@ export const ForgotPassword: React.FC = () => {
           name="email"
           placeholder="yourname@email.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          error={error}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (error) setError(undefined);
+          }}
           disabled={isSubmitting}
         />
 

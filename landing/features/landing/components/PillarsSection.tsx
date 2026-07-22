@@ -2,73 +2,76 @@ const PILLARS = [
   {
     num: "01",
     title: "Structured TVET Curricula",
-    desc: "Industry-aligned syllabus designed for practical skill mastery across all trades.",
+    desc: "Trade, level, module, unit, lesson and activity hierarchy that mirrors how NSQ vocational programmes are actually built.",
   },
   {
     num: "02",
     title: "Standard Interoperability",
-    desc: "Seamless integration across TVET centers, NBTE, and NABTEB databases for frictionless record transfer.",
+    desc: "Upload and launch externally authored SCORM, xAPI and HTML5 packages — authoring tools are first‑class inputs, not an afterthought.",
   },
   {
     num: "03",
     title: "Multi-Tenant By Design",
-    desc: "Separate management portals for administrators, centers, trainers, and students.",
+    desc: "One platform, many institutions, programmes and cohorts — each with its own learners, roles and data boundaries.",
   },
   {
     num: "04",
     title: "Evidence-Based Assessment",
-    desc: "Continuous evaluation with photo/video upload capability to prove practical skills.",
+    desc: "Learners upload practical evidence; assessors verify against NSQ criteria; IQA/EQA audit the trail. The capability that makes a completion defensible.",
   },
   {
     num: "05",
     title: "Institutional Reporting",
-    desc: "Real-time compliance monitoring and analytics for government bodies and regulatory agencies.",
+    desc: "Progress, completion, assessment and evidence reporting filtered by cohort, tenant, programme or state — visibility for funders and Management.",
   },
   {
     num: "06",
     title: "Flexible Access & Commercials",
-    desc: "Custom access levels for institutions, training providers, and corporate partners.",
+    desc: "Institutional bulk, sponsored, voucher, subscription and invoice‑based access — designed for how programmes are really funded.",
   },
   {
     num: "07",
     title: "White-Label Ready",
-    desc: "Deployable as an institutional solution for state government and federal training programs.",
+    desc: "Tenant branding so institutional clients can deliver learning in their own identity, on architecture prepared for it from day one.",
   },
   {
     num: "08",
     title: "Mobile-First & Accessible",
-    desc: "Optimized for low-bandwidth mobile environments so learners can access anywhere.",
+    desc: "OThe full learner journey — access, learn, resume, complete — works on the phones trainees actually use.",
   },
   {
     num: "09",
     title: "AI-Ready & Scalable",
-    desc: "Built on modern cloud infrastructure that grows with your state or institutional footprint.",
+    desc: "Data structures and xAPI‑ready records that won’t block future AI tutoring, feedback and analytics — or growth to more trades, states and partners.",
   },
 ];
 
 export function PillarsSection() {
   return (
     <section className="bg-slate-50/70 py-16 lg:py-24" id="pillars">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#1e1e1e] sm:text-4xl">
-            Built On <span className="text-[#aa1d3f]">Nine Product</span> Pillars
+      <div className="mx-auto sm:px-6 lg:px-8 xl:px-16">
+        <div className="text-center" data-aos="fade-up">
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-black">
+            Built On <span className="text-primary">Nine Product</span> Pillars
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-gray-600">
-            A comprehensive solution designed to handle every aspect of technical and vocational education management.
+          <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base lg:text-lg text-black leading-relaxed">
+            A comprehensive solution designed to handle every aspect of
+            technical and vocational education management.
           </p>
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {PILLARS.map((pillar) => (
+          {PILLARS.map((pillar, idx) => (
             <div
               key={pillar.num}
-              className="group rounded-xl border border-gray-200/80 bg-white p-6 shadow-sm transition-all hover:border-[#aa1d3f]/40 hover:shadow-md"
+              data-aos="fade-up"
+              data-aos-delay={(idx % 3) * 100 + 100}
+              className="group rounded-xl border border-gray-200/80 bg-white p-6 shadow-sm transition-all hover:border-primary/40 hover:shadow-md"
             >
-              <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100 text-xs font-extrabold text-[#aa1d3f] group-hover:bg-[#aa1d3f] group-hover:text-white transition-colors">
+              <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100 text-xs font-extrabold text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                 {pillar.num}
               </div>
-              <h3 className="mt-4 text-lg font-bold text-[#1e1e1e]">
+              <h3 className="mt-4 text-lg font-bold text-text-dark">
                 {pillar.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-gray-600">

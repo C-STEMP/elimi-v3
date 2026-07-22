@@ -14,6 +14,10 @@ import { useRouter } from "next/navigation";
 import { StatusModal } from "@/components/ui/status-modal";
 import { useAppDispatch } from "@/store/hooks";
 import { setSidebarVariant } from "@/store/slices/authSlice";
+import {
+  personalInfoSchema,
+  extractZodErrors,
+} from "@/lib/validation";
 
 export interface PersonalInfoProps {
   onBack?: () => void;
@@ -41,6 +45,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
   onSuccess,
 }) => {
   const [form, setForm] = useState(initialForm);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -52,19 +57,27 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
     dispatch(setSidebarVariant("default"));
   }, [dispatch]);
 
-  const update = (field: keyof typeof initialForm, value: string) =>
+  const update = (field: keyof typeof initialForm, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+  };
+
+  const validateForm = () => {
+    const result = personalInfoSchema.safeParse(form);
+    if (!result.success) {
+      setErrors(extractZodErrors(result));
+      return false;
+    }
+    setErrors({});
+    return true;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !form.firstName ||
-      !form.lastName ||
-      !form.dob ||
-      !form.gender ||
-      !form.nationality
-    ) {
+    if (!validateForm()) {
       toast({
         type: "error",
         title: "Input Required",
@@ -126,8 +139,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
             type="text"
             placeholder="First name"
             value={form.firstName}
+            error={errors.firstName}
             onChange={(e) => update("firstName", e.target.value)}
-            required
           />
 
           <Input
@@ -139,8 +152,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
             type="text"
             placeholder="Surname"
             value={form.lastName}
+            error={errors.lastName}
             onChange={(e) => update("lastName", e.target.value)}
-            required
           />
 
           <Input
@@ -160,8 +173,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
             }
             placeholder="dd/mm/yyyy"
             value={form.dob}
+            error={errors.dob}
             onChange={(val) => update("dob", val)}
-            required
           />
 
           <Select
@@ -173,8 +186,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
             placeholder="Select"
             options={["Male", "Female", "Prefer not to say"]}
             value={form.gender}
+            error={errors.gender}
             onChange={(e) => update("gender", e.target.value)}
-            required
           />
 
           <Select
@@ -192,8 +205,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
               "Other",
             ]}
             value={form.nationality}
+            error={errors.nationality}
             onChange={(e) => update("nationality", e.target.value)}
-            required
           />
         </div>
 
@@ -214,8 +227,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
               type="email"
               placeholder="yourname@email.com"
               value={form.email}
+              error={errors.email}
               onChange={(e) => update("email", e.target.value)}
-              required
             />
 
             <PhoneInput
@@ -228,6 +241,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
               countryCode={form.countryCode}
               onCountryCodeChange={(v) => update("countryCode", v)}
               phoneNumber={form.phoneNumber}
+              error={errors.phoneNumber}
               onPhoneNumberChange={(v) => update("phoneNumber", v)}
             />
           </div>
@@ -259,8 +273,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
                 "Delta",
               ]}
               value={form.state}
+              error={errors.state}
               onChange={(e) => update("state", e.target.value)}
-              required
             />
 
             <Select
@@ -280,8 +294,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
                 "Obafemi Owode",
               ]}
               value={form.lga}
+              error={errors.lga}
               onChange={(e) => update("lga", e.target.value)}
-              required
             />
 
             <div className="sm:col-span-2">
@@ -295,8 +309,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
                 type="text"
                 placeholder="Street Address"
                 value={form.streetAddress}
+                error={errors.streetAddress}
                 onChange={(e) => update("streetAddress", e.target.value)}
-                required
               />
             </div>
           </div>
@@ -325,8 +339,8 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
                 "Other",
               ]}
               value={form.impairment}
+              error={errors.impairment}
               onChange={(e) => update("impairment", e.target.value)}
-              required
             />
           </div>
         </div>

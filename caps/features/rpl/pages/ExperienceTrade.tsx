@@ -15,6 +15,11 @@ import { StatusModal } from "@/components/ui/status-modal";
 import { useAppDispatch } from "@/store/hooks";
 import { setSidebarVariant, setRplStep } from "@/store/slices/authSlice";
 
+import {
+  rplExperienceTradeSchema,
+  extractZodErrors,
+} from "@/lib/validation";
+
 export interface RPLExperienceTradeProps {
   onBack?: () => void;
   onContinue?: () => void;
@@ -70,8 +75,14 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
     showSuccessModal: false,
   });
 
-  const update = (field: string, value: any) =>
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const update = (field: string, value: any) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+  };
 
   const updateEmployment = (id: string, field: string, value: any) => {
     setForm((prev) => ({
@@ -138,8 +149,27 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
     });
   };
 
+  const validateForm = () => {
+    const result = rplExperienceTradeSchema.safeParse(form);
+    if (!result.success) {
+      setErrors(extractZodErrors(result));
+      return false;
+    }
+    setErrors({});
+    return true;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast({
+        type: "error",
+        title: "Input Required",
+        description: "Please fill in all required experience and trade fields.",
+      });
+      return;
+    }
 
     update("isSubmitting", true);
     setTimeout(() => {
@@ -185,7 +215,12 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Select
-              label="Qualification Title"
+              label={
+                <span>
+                  Qualification Title
+                  <span className="text-primary-solid ml-0.5">*</span>
+                </span>
+              }
               placeholder="Select"
               options={[
                 "National Skills Qualification Level 1",
@@ -194,6 +229,7 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
                 "Master Craftsman Certificate",
               ]}
               value={form.qualificationTitle}
+              error={errors.qualificationTitle}
               onChange={(e) => update("qualificationTitle", e.target.value)}
             />
 
@@ -207,7 +243,12 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
             />
 
             <Select
-              label="Assessment Type"
+              label={
+                <span>
+                  Assessment Type
+                  <span className="text-primary-solid ml-0.5">*</span>
+                </span>
+              }
               placeholder="Select"
               options={[
                 "Full Qualification Assessment",
@@ -215,6 +256,7 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
                 "Modular Assessment",
               ]}
               value={form.assessmentType}
+              error={errors.assessmentType}
               onChange={(e) => update("assessmentType", e.target.value)}
             />
 
@@ -247,7 +289,12 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Select
-              label="Occupation"
+              label={
+                <span>
+                  Occupation
+                  <span className="text-primary-solid ml-0.5">*</span>
+                </span>
+              }
               placeholder="Select"
               options={[
                 "Carpenter / Joiner",
@@ -258,11 +305,17 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
                 "Automotive Technician",
               ]}
               value={form.occupation}
+              error={errors.occupation}
               onChange={(e) => update("occupation", e.target.value)}
             />
 
             <Select
-              label="Years Of Experience"
+              label={
+                <span>
+                  Years Of Experience
+                  <span className="text-primary-solid ml-0.5">*</span>
+                </span>
+              }
               placeholder="Select"
               options={[
                 "1 - 2 years",
@@ -271,6 +324,7 @@ export const RPLExperienceTrade: React.FC<RPLExperienceTradeProps> = ({
                 "10+ years",
               ]}
               value={form.yearsOfExperience}
+              error={errors.yearsOfExperience}
               onChange={(e) => update("yearsOfExperience", e.target.value)}
             />
           </div>

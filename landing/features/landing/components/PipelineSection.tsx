@@ -1,100 +1,128 @@
+import Image from "next/image";
 import Link from "next/link";
+import { bookOpenIcon, quizIcon, briefcaseIcon } from "@/assets";
 
 const STEPS = [
   {
-    number: "01",
-    tag: "Get Trained",
-    title: "Skilled trades training for modern industry requirements",
+    id: "learn",
+    title: "Learn",
+    titleColor: "text-[#A91D3A]",
+    subtitle: "NSQ-aligned skilled trade e-learning",
     bullets: [
-      "Standardized curriculum across 25+ skilled trades",
-      "Practical hands-on training from certified instructors",
-      "Flexible schedule for working learners & apprentices",
+      "National Occupational Standards aligned video lessons & manuals",
+      "Practical pre-requisite prep for carpentry, plumbing, electrical installation",
+      "Quizzes and peer discussions with real-time feedback",
+      "Generates an academic certificate of course completion",
     ],
     ctaText: "Learn More",
-    ctaLink: "#trained",
-    btnStyle: "bg-[#aa1d3f] text-white hover:bg-[#8f1532]",
-    tagStyle: "text-[#aa1d3f]",
+    ctaLink: "#learn",
+    btnStyle: "bg-[#A91D3A] text-white hover:bg-[#8A162D]",
+    iconSrc: bookOpenIcon,
+    iconAlt: "Book open icon",
   },
   {
-    number: "02",
-    tag: "Get Certified",
-    title: "Recognized certifications from national TVET bodies",
+    id: "assessed",
+    title: "Get Assessed",
+    titleColor: "text-[#E58E00]",
+    subtitle: "Competency Assessment Portal",
     bullets: [
-      "National Vocational Qualification Framework (NVQF) aligned",
-      "NABTEB Modular and NBTE recognized credentials",
-      "Verification portal for employers and institutions",
+      "Physical test coordination at GIZ & NBTE-approved trade labs",
+      "Robust assessment chain: QAA → IQA → EQA internal & external verification",
+      "Direct connection to recognized National Skills Qualifications Board",
+      "Recognition of Prior Learning (RPL) for seasoned artisans",
     ],
-    ctaText: "Get Started",
-    ctaLink: "#certified",
-    btnStyle: "bg-[#f9a825] text-[#1e1e1e] hover:bg-[#e0931b]",
-    tagStyle: "text-[#f9a825]",
+    ctaText: "Learn More",
+    ctaLink: "#assessed",
+    btnStyle: "bg-[#E58E00] text-white hover:bg-[#C97C00]",
+    iconSrc: quizIcon,
+    iconAlt: "Quiz assessment icon",
   },
   {
-    number: "03",
-    tag: "Get Hired",
-    title: "Direct job placement with verified employers",
+    id: "hired",
+    title: "Get Hired",
+    titleColor: "text-black",
+    subtitle: "WorkMaster Portal",
     bullets: [
-      "Verified talent pool accessible to corporate & public employers",
-      "Direct job matching based on skill competency & location",
-      "Ongoing support for career progression & upskilling",
+      "Immutable public profile carrying certified digital trade badges",
+      "Employers search, verify, and source talent with 100% credential certainty",
+      "Direct connection with multi-housing developers and corporate sponsors",
+      "Ecosystem tracking showing ongoing professional development",
     ],
-    ctaText: "Explore Portal",
+    ctaText: "Learn More",
     ctaLink: "#hired",
-    btnStyle: "bg-[#1e1e1e] text-white hover:bg-black",
-    tagStyle: "text-[#1e1e1e]",
+    btnStyle: "bg-black text-white hover:bg-slate-800",
+    iconSrc: briefcaseIcon,
+    iconAlt: "Briefcase icon",
   },
 ];
 
 export function PipelineSection() {
   return (
-    <section className="bg-slate-50/60 py-16 lg:py-24" id="pipeline">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#1e1e1e] sm:text-4xl">
-            The <span className="text-[#aa1d3f]">Unified</span> Interactive Pipeline
+    <section className="bg-[#f4f5f8] py-16 lg:py-24" id="pipeline">
+      <div className="mx-auto sm:px-6 lg:px-8 xl:px-16">
+        <div className="text-center" data-aos="fade-up">
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-black">
+            The <span className="text-[#A91D3A]">Unified</span> Interactive
+            Pipeline
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-gray-600">
-            Streamlined workforce development from intake to job placement through three connected steps.
+          <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base lg:text-lg text-black leading-relaxed">
+            Lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum
+            <br className="hidden sm:inline" /> dolor lorem ipsum dolor
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-          {STEPS.map((step) => (
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3 items-stretch">
+          {STEPS.map((step, idx) => (
             <div
-              key={step.number}
-              className="flex flex-col justify-between rounded-2xl border border-gray-200/80 bg-white p-8 shadow-sm transition-all hover:shadow-md"
+              key={step.id}
+              data-aos="fade-up"
+              data-aos-delay={(idx + 1) * 150}
+              className="flex flex-col justify-between rounded-3xl bg-white overflow-hidden transition-all"
             >
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className={`text-sm font-bold uppercase tracking-wider ${step.tagStyle}`}>
-                    {step.tag}
-                  </span>
-                  <span className="text-2xl font-black text-gray-300">
-                    {step.number}
-                  </span>
+              <div className="p-6 sm:p-8 pb-4">
+                {/* Icon */}
+                <div className="mb-5">
+                  <Image
+                    src={step.iconSrc}
+                    alt={step.iconAlt}
+                    width={28}
+                    height={28}
+                    className="w-7 h-7"
+                  />
                 </div>
 
-                <h3 className="mt-4 text-xl font-bold leading-snug text-[#1e1e1e]">
+                {/* Title */}
+                <h3
+                  className={`text-2xl sm:text-3xl lg:text-[26px] font-extrabold tracking-tight ${step.titleColor}`}
+                >
                   {step.title}
                 </h3>
 
-                <ul className="mt-6 space-y-3">
+                {/* Subtitle */}
+                <p className="mt-1.5 text-base sm:text-lg lg:text-xl text-back leading-snug">
+                  {step.subtitle}
+                </p>
+
+                {/* Bullets */}
+                <ul className="mt-5 space-y-0.5 list-disc pl-5 text-xs sm:text-sm text-black leading-relaxed font-normal">
                   {step.bullets.map((bullet, idx) => (
-                    <li key={idx} className="flex items-start gap-2.5 text-sm text-gray-600">
-                      <span className="mt-1 flex h-1.5 w-1.5 rounded-full bg-[#aa1d3f] shrink-0" />
+                    <li key={idx}>
                       <span>{bullet}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mt-8">
-                <Link
-                  href={step.ctaLink}
-                  className={`inline-block w-full rounded-md py-3 text-center text-sm font-bold transition-all ${step.btnStyle}`}
-                >
-                  {step.ctaText}
-                </Link>
+              {/* Action Button wrapped in bottom-left light grey container */}
+              <div className="flex justify-start pt-4">
+                <div className="inline-flex rounded-tr-2xl rounded-bl-3xl bg-[#f0f1f5] p-3">
+                  <Link
+                    href={step.ctaLink}
+                    className={`rounded-xl px-7 lg:px-12 py-3 text-sm font-bold transition-all shadow-sm ${step.btnStyle}`}
+                  >
+                    {step.ctaText}
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

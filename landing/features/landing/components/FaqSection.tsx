@@ -43,7 +43,7 @@ export function FaqSection() {
   return (
     <section className="bg-slate-50/60 py-16 lg:py-24" id="faqs">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
+        <div className="text-center" data-aos="fade-up">
           <h2 className="text-3xl font-extrabold tracking-tight text-[#1e1e1e] sm:text-4xl">
             Frequently Asked Questions
           </h2>
@@ -58,6 +58,8 @@ export function FaqSection() {
             return (
               <div
                 key={idx}
+                data-aos="fade-up"
+                data-aos-delay={(idx % 5) * 80 + 50}
                 className="overflow-hidden rounded-xl border border-gray-200/80 bg-white transition-all shadow-sm"
               >
                 <button

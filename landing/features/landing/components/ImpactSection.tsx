@@ -40,12 +40,13 @@ export function ImpactSection() {
   return (
     <section className="bg-white py-16 lg:py-24" id="impact">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight text-[#1e1e1e] sm:text-4xl">
-            Our <span className="text-[#f9a825]">Positive</span> Social Impact
+        <div className="text-center" data-aos="fade-up">
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-black">
+            Our <span className="text-secondary">Positive</span> Social Impact
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-gray-600">
-            Hear from real students and partners who have experienced the difference.
+          <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base lg:text-lg text-black leading-relaxed">
+            Hear from real students and partners who have experienced the
+            difference.
           </p>
         </div>
 
@@ -54,11 +55,13 @@ export function ImpactSection() {
           {TESTIMONIALS.map((item, idx) => (
             <div
               key={idx}
+              data-aos="fade-up"
+              data-aos-delay={(idx + 1) * 150}
               className="flex flex-col justify-between rounded-2xl border border-gray-100 bg-slate-50/60 p-8 shadow-sm transition-all hover:bg-slate-50"
             >
               <div>
                 {/* Rating Stars */}
-                <div className="flex items-center gap-1 text-[#f9a825]">
+                <div className="flex items-center gap-1 text-secondary">
                   {[...Array(item.rating)].map((_, i) => (
                     <svg
                       key={i}
@@ -76,7 +79,7 @@ export function ImpactSection() {
               </div>
 
               <div className="mt-6 border-t border-gray-200/60 pt-4">
-                <h4 className="text-base font-bold text-[#1e1e1e]">
+                <h4 className="text-base font-bold text-text-dark">
                   {item.name}
                 </h4>
                 <p className="text-xs text-gray-500">{item.role}</p>

@@ -4,98 +4,122 @@ import { heroImg1, heroImg2, heroImg3, heroImg4 } from "@/assets";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[#540C1D] text-white pt-10 pb-20 lg:pt-14 lg:pb-28">
-      <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        {/* Top Tagline Badge */}
-        <div className="inline-flex items-center rounded-full border border-[#f9a825]/40 bg-[#f9a825]/10 px-4 py-1.5 text-xs font-semibold tracking-wider text-[#f9a825] uppercase">
-          NIGERIA&apos;S FIRST NATIONWIDE TVET SYSTEM PLATFORM
+    <section className="relative flex flex-col justify-between overflow-hidden bg-[#661126] text-white pt-4 lg:pt-10 pb-10">
+      <div className="mx-auto flex flex-col justify-between h-full w-full  px-4 text-center sm:px-6 lg:px-8 xl:px-16">
+        <div className="flex flex-col items-center justify-center my-auto py-2 mb-4">
+          <div
+            data-aos="fade-down"
+            className="inline-flex items-center rounded-full bg-secondary/10 px-3.5 lg:px-5 py-1 text-[11px] lg:text-base font-semibold tracking-wider text-secondary uppercase"
+          >
+            NIGERIA&apos;S FIRST NATIONWIDE TVET SYSTEM PLATFORM
+          </div>
+
+          <h1
+            data-aos="fade-up"
+            data-aos-delay="100"
+            className="mt-3 max-w-5xl text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl md:text-4xl lg:text-[44px]"
+          >
+            Nigeria&apos;s platform for getting{" "}
+            <span className="text-secondary italic">trained</span>,{" "}
+            <span className="text-[#CB7288] italic">certified</span>, and{" "}
+            <span className="text-[#FBCB7C] italic">hired</span> in the skilled
+            trades, all in one place.
+          </h1>
+
+          <p
+            data-aos="fade-up"
+            data-aos-delay="200"
+            className="mt-4 max-w-5xl font-medium text-sm text-white sm:text-sm lg:text-2xl"
+          >
+            One-stop platform for non-formal TVET (Technical &amp; Vocational
+            Education &amp; Training), NBTE TVET National Qualifications
+            Framework, and NABTEB Modular Certifications (under 100 million
+            tradesmen)
+          </p>
+
+          <div
+            data-aos="fade-up"
+            data-aos-delay="300"
+            className="mt-4 lg:mt-6 flex flex-wrap items-center justify-center gap-3 lg:gap-5"
+          >
+            <Link
+              href="/get-started"
+              className="rounded-[10px] bg-secondary px-5 lg:px-16 py-2.5 text-sm font-semibold text-white transition-all hover:bg-secondary-hover"
+            >
+              Get Started
+            </Link>
+            <Link
+              href="#about"
+              className="rounded-[10px] bg-inherit px-5 lg:px-16 py-2.5 text-sm font-semibold text-white transition-all border border-white hover:bg-white/10"
+            >
+              Learn More
+            </Link>
+          </div>
         </div>
 
-        {/* Main Headline */}
-        <h1 className="mx-auto mt-6 max-w-4xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-          Nigeria&apos;s platform for getting{" "}
-          <span className="text-[#f9a825]">trained</span>,{" "}
-          <span className="text-white">certified</span>, and{" "}
-          <span className="text-[#f9a825]">hired</span> in the skilled trades,
-          all in one place.
-        </h1>
-
-        {/* Sub-headline */}
-        <p className="mx-auto mt-6 max-w-3xl text-base text-white/80 sm:text-lg">
-          One-stop platform for non-formal TVET (Technical &amp; Vocational
-          Education &amp; Training), NBTE TVET National Qualifications
-          Framework, and NABTEB Modular Certifications (under 100 million
-          tradesmen)
-        </p>
-
-        {/* Hero CTA Buttons */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/get-started"
-            className="rounded-md bg-[#f9a825] px-7 py-3 text-sm font-bold text-[#1e1e1e] transition-all hover:bg-[#e0931b]"
-          >
-            Get Started
-          </Link>
-          <Link
-            href="#about"
-            className="rounded-md border border-white/40 px-7 py-3 text-sm font-semibold text-white transition-all hover:border-white hover:bg-white/10"
-          >
-            Learn More
-          </Link>
-        </div>
-
-        {/* Hero Image Cards Grid */}
-        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Card 1 */}
-          <div className="relative overflow-hidden rounded-2xl bg-[#75152b] h-64 sm:h-72 lg:h-80 shadow-xl group">
-            <Image
-              src={heroImg1}
-              alt="Artisan apprentice in workshop"
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              priority
-            />
-            <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-[#f9a825] p-3 text-center text-[#1e1e1e] shadow-lg">
-              <span className="block text-xl font-extrabold leading-none">99%</span>
-              <span className="text-xs font-semibold">Placement Rate</span>
+        <div className="mt-6 lg:mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4 h-80 lg:h-84 w-full shrink-0">
+          {/* Column 1: Graffiti Artist Top + 99% Certification Rate Bottom */}
+          <div data-aos="fade-up" data-aos-delay="200" className="flex flex-col gap-3 lg:gap-4 h-full">
+            <div className="relative flex-2 overflow-hidden rounded-xl lg:rounded-2xl group">
+              <Image
+                src={heroImg4}
+                alt="Artisan spray painting mural"
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 640px) 50vw, 25vw"
+                priority
+              />
+            </div>
+            <div className="flex flex-1 flex-col items-center justify-center rounded-xl lg:rounded-2xl bg-[#FBB040] text-center text-black shadow-sm">
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-none tracking-tight">
+                99%
+              </span>
+              <span className="mt-1.5 text-xs sm:text-sm font-bold leading-tight">
+                Certification Rate
+              </span>
             </div>
           </div>
 
-          {/* Card 2 */}
-          <div className="relative overflow-hidden rounded-2xl bg-[#75152b] h-64 sm:h-72 lg:h-80 shadow-xl group">
+          {/* Column 2: Full height Builder with Timber */}
+          <div data-aos="fade-up" data-aos-delay="300" className="relative h-full overflow-hidden rounded-xl lg:rounded-2xl group">
             <Image
               src={heroImg2}
-              alt="Technical builder outdoors"
+              alt="Technical builder constructing timber structure"
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              sizes="(max-width: 640px) 50vw, 25vw"
             />
           </div>
 
-          {/* Card 3 */}
-          <div className="relative overflow-hidden rounded-2xl bg-[#75152b] h-64 sm:h-72 lg:h-80 shadow-xl group">
-            <Image
-              src={heroImg3}
-              alt="Technician working on electronics"
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            />
-            <div className="absolute top-4 left-4 right-4 rounded-xl bg-white/95 backdrop-blur p-3 text-center text-[#1e1e1e] shadow-lg">
-              <span className="block text-xl font-extrabold leading-none">80%</span>
-              <span className="text-xs font-semibold text-gray-700">Faster Certification Time</span>
+          {/* Column 3: 80% Course Completion Rate Top + Electronics Tech Bottom */}
+          <div data-aos="fade-up" data-aos-delay="400" className="flex flex-col gap-3 lg:gap-4 h-full">
+            <div className="flex flex-1 flex-col items-center justify-center rounded-xl lg:rounded-2xl bg-[#FDF0D5] text-center text-black shadow-sm">
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-none tracking-tight">
+                80%
+              </span>
+              <span className="mt-1.5 text-xs sm:text-sm font-bold leading-tight">
+                Course Completion Rate
+              </span>
+            </div>
+            <div className="relative flex-2 overflow-hidden rounded-xl lg:rounded-2xl group">
+              <Image
+                src={heroImg1}
+                alt="Technician working on electronics"
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 640px) 50vw, 25vw"
+              />
             </div>
           </div>
 
-          {/* Card 4 */}
-          <div className="relative overflow-hidden rounded-2xl bg-[#75152b] h-64 sm:h-72 lg:h-80 shadow-xl group">
+          {/* Column 4: Full height Tradesman with Equipment */}
+          <div data-aos="fade-up" data-aos-delay="500" className="relative h-full overflow-hidden rounded-xl lg:rounded-2xl group">
             <Image
-              src={heroImg4}
+              src={heroImg3}
               alt="Verified tradesman with equipment"
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              sizes="(max-width: 640px) 50vw, 25vw"
             />
           </div>
         </div>

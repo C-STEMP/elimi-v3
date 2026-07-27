@@ -8,6 +8,8 @@ import cardWhite from "@/assets/icons/card-white.png";
 import cardYellow from "@/assets/icons/card-yellow.png";
 import cardRed from "@/assets/icons/card-red.png";
 import cardBlack from "@/assets/icons/card-black.png";
+import learningBooks from "@/assets/icons/learning_books.png";
+import userAvatar from "@/assets/icons/user_avatar.png";
 
 import saveIcon from "@/assets/icons/save.svg";
 import loadingIcon from "@/assets/icons/loading.svg";
@@ -27,5 +29,6 @@ export {
   saveIcon,
   loadingIcon,
   errorSymbolIcon,
+  learningBooks,
+  userAvatar,
 };
-

@@ -4,11 +4,15 @@ import { logoIcon } from "@/assets";
 
 interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
   theme?: "light" | "dark";
+  width?: number;
+  height?: number;
 }
 
 export const Logo: React.FC<LogoProps> = ({
   className = "",
   theme,
+  width = 141,
+  height = 80,
   ...props
 }) => {
   return (
@@ -16,11 +20,10 @@ export const Logo: React.FC<LogoProps> = ({
       <Image
         src={logoIcon}
         alt="ELIMI Logo"
-        width={141}
-        height={80}
+        width={width}
+        height={height}
         priority
-        className="object-cover"
-        style={{ width: "141px", height: "80px" }}
+        className="object-contain"
       />
     </div>
   );

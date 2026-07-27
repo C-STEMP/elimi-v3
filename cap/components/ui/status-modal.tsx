@@ -83,7 +83,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-4xl p-10 max-w-105 w-full flex flex-col items-center text-center shadow-2xl relative animate-slide-in"
+        className="bg-white rounded-4xl p-10 max-w-105 w-full flex flex-col items-center text-center shadow-2xl relative animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {onClose && (

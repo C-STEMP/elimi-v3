@@ -1,0 +1,18 @@
+import * as React from "react";
+import { AuthSidebar } from "@/features/auth/components/AuthSidebar";
+
+export default function OnboardingLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div suppressHydrationWarning className="h-screen w-full flex bg-white font-sans antialiased overflow-hidden">
+      <AuthSidebar />
+
+      <div suppressHydrationWarning className="flex-1 h-screen overflow-y-auto flex flex-col items-center p-6 md:p-10 xl:p-12 bg-white relative">
+        <div suppressHydrationWarning className="w-full flex flex-col items-center my-auto py-6">{children}</div>
+      </div>
+    </div>
+  );
+}
